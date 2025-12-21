@@ -1,0 +1,162 @@
+{
+  "name": "wkf-suite",
+  "version": "1.1.1",
+  "description": "Sistema gestione permessi aziendali - WKF Suite con PWA",
+  "main": "electron-main.js",
+  "author": "",
+  "copyright": "Copyright © 2025 WKF Suite",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "electron": "electron .",
+    "electron-dev": "set NODE_ENV=development && electron .",
+    "rebuild-native": "electron-rebuild",
+    "prebuild": "npm run rebuild-native",
+    "build-win": "electron-builder --win",
+    "build-all": "electron-builder --win --linux",
+    "dist": "npm run build-win",
+    "android-setup": "echo 'Leggi android-setup.md per le istruzioni'",
+    "build-desktop": "npm run build-win",
+    "test-network": "node -e \"console.log('Server test in rete aziendale...'); require('./server.js')\"",
+    "pkg": "pkg pkg-entry.js --target node18-win-x64 --output dist/Gestione-Permessi.exe",
+    "pkg-debug": "pkg pkg-entry.js --target node18-win-x64 --output dist/Gestione-Permessi-Debug.exe --debug",
+    "build-wkf-suite": "node build-exe.js",
+    "build-standalone": "npm run build-wkf-suite"
+  },
+  "homepage": "http://./",
+  "build": {
+    "appId": "com.wkfsuite.app",
+    "productName": "WKF Suite",
+    "directories": {
+      "output": "dist"
+    },
+    "npmRebuild": false,
+    "buildDependenciesFromSource": false,
+    "icon": "icon-wkf.ico",
+    "files": [
+      "**/*",
+      "license-manager.js",
+      "logo.png",
+      "!dist/**/*",
+      "!release/**/*",
+      "!node_modules/electron/**/*",
+      "!.git/**/*",
+      "!README*.md",
+      "!APK*.md",
+      "!DISCLAIMER*.md",
+      "!CHECKLIST*.md",
+      "!TERMINI*.md",
+      "!*.md",
+      "!data/**/*",
+      "!website/**/*",
+      "!cd 1/**/*",
+      "!cd home/**/*",
+      "!*.log",
+      "!license.key",
+      "!*.bat",
+      "!*.txt",
+      "!.env",
+      "!.env.*",
+      "!test-*.js",
+      "!debug-*.js",
+      "!fix-*.js",
+      "!clean-*.js",
+      "!prepare-*.js",
+      "!final-*.js",
+      "!server-simple.js",
+      "!*-simple.js",
+      "!.vscode/**/*",
+      "!testing/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/sqlite3/build",
+        "to": "node_modules/sqlite3/build",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon-wkf.ico",
+      "requestedExecutionLevel": "asInvoker",
+      "artifactName": "WKF-Suite-v${version}.${ext}",
+      "executableName": "WKF-Suite",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "WKF Suite",
+      "installerIcon": "icon-wkf.ico",
+      "uninstallerIcon": "icon-wkf.ico",
+      "installerHeaderIcon": "icon-wkf.ico",
+      "displayLanguageSelector": false,
+      "installerLanguages": [
+        "it_IT"
+      ]
+    }
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.2.0",
+    "body-parser": "^2.2.0",
+    "chart.js": "^4.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "html2canvas": "^1.4.1",
+    "ical-generator": "^7.2.0",
+    "jspdf": "^3.0.2",
+    "monitor": "^0.6.10",
+    "multer": "^2.0.2",
+    "node-windows": "^1.0.0-beta.8",
+    "nodemailer": "^7.0.6",
+    "puppeteer": "^24.19.0",
+    "qrcode": "^1.5.4",
+    "sql.js": "^1.13.0",
+    "sqlite3": "^5.1.7",
+    "stripe": "^18.5.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@electron/rebuild": "^4.0.1",
+    "electron": "^32.2.7",
+    "electron-builder": "^26.0.12",
+    "pkg": "^5.8.1"
+  },
+  "pkg": {
+    "assets": [
+      "public/**/*",
+      "ssl/**/*",
+      "data/**/*",
+      "node_modules/sqlite3/lib/binding/**/*",
+      "node_modules/sqlite3/build/**/*"
+    ],
+    "scripts": [
+      "server.js",
+      "monitor.js"
+    ],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "dist/"
+  }
+}

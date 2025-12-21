@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
+  <title>Login - WKF Suite</title>
+
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <!-- Icons -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span>Gestione Permessi</span>
+      </div>
+    </div>
+
+    <div class="card" style="max-width: 400px; margin: 50px auto;">
+      <h2>Accedi al Sistema</h2>
+      
+      <form id="loginForm">
+        <div class="grid">
+          <div class="col-12">
+            <label>Username:</label>
+            <input type="text" id="username" class="input" required placeholder="Inserisci username">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-12">
+            <label>Password:</label>
+            <input type="password" id="password" class="input" required placeholder="Inserisci password">
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+          Accedi
+        </button>
+      </form>
+
+      <div id="loginMsg" style="margin-top: 15px; text-align: center;"></div>
+
+      <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p class="notice">
+          Non hai un account? 
+          <a href="register.html" style="color: var(--accent); text-decoration: none;">
+            Registrati qui
+          </a>
+        </p>
+        
+      </div>
+    </div>
+  </div>
+
+  <script src="toast.js"></script>
+  <script src="login.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

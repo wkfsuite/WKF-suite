@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benvenuto - Gestione Permessi</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+
+  <!-- Icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .welcome {
+      text-align: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .swiper-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 30px auto;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .swiper-wrapper {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+    
+    .swiper-slide {
+      flex: 0 0 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .role-card {
+      background: #467194;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(89, 190, 131, 0.2);
+      width: 280px;
+      max-width: 90%;
+      text-align: center;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+    
+    .role-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .role-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: #59be83;
+    }
+    
+    .role-card p {
+      font-size: 1rem;
+      color: #e8f4f8;
+      margin: 15px 0 20px 0;
+      line-height: 1.4;
+    }
+    
+    .role-card button {
+      background: #59be83;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s ease;
+    }
+    
+    .role-card button:hover {
+      background: #4a9e6f;
+    }
+    
+    .navigation {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .nav-btn {
+      background: #59be83;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    
+    .nav-btn:hover {
+      background: #4a9e6f;
+    }
+    
+    .nav-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    .indicators {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    .indicator.active {
+      background: #59be83;
+    }
+    
+    @media (max-width: 768px) {
+      .welcome {
+        padding: 15px;
+      }
+      
+      .role-card {
+        width: 240px;
+        padding: 25px;
+      }
+      
+      .role-card h3 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container welcome">
+    <h2>Benvenuto nel sistema Permessi</h2>
+    <p>Scorri tra i ruoli per accedere al sistema</p>
+
+    <div class="swiper-container">
+      <div class="swiper-wrapper" id="swiperWrapper">
+        <div class="swiper-slide">
+          <div class="role-card">
+            <h3>Admin</h3>
+            <p>Configura il Wi-Fi e gestisce gli utenti del sistema</p>
+            <button onclick="goLogin('admin')">Accedi come Admin</button>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="role-card">
+            <h3>UFFICI</h3>
+            <p>Inserisce richieste di permesso per i dipendenti</p>
+            <button onclick="goLogin('segreteria')">Accedi come Uffici</button>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="role-card">
+            <h3>DIREZIONE</h3>
+            <p>Approva o rifiuta le richieste dei dipendenti</p>
+            <button onclick="goLogin('supervisore')">Accedi come Direzione</button>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="role-card">
+            <h3>Dipendente</h3>
+            <p>Visualizza lo stato dei propri permessi e scarica il PDF</p>
+            <button onclick="goLogin('dipendente')">Accedi come Dipendente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← Precedente</button>
+      <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Successivo →</button>
+    </div>
+
+    <div class="indicators" id="indicators">
+      <div class="indicator active" onclick="goToSlide(0)"></div>
+      <div class="indicator" onclick="goToSlide(1)"></div>
+      <div class="indicator" onclick="goToSlide(2)"></div>
+      <div class="indicator" onclick="goToSlide(3)"></div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 4;
+    
+    function updateSlider() {
+      const wrapper = document.getElementById('swiperWrapper');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+      
+      // Update indicators
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle('active', index === currentSlide);
+      });
+      
+      // Update navigation buttons
+      prevBtn.disabled = currentSlide === 0;
+      nextBtn.disabled = currentSlide === totalSlides - 1;
+    }
+    
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlider();
+      }
+    }
+    
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlider();
+      }
+    }
+    
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlider();
+    }
+    
+    function goLogin(role) {
+      sessionStorage.setItem('expectedRole', role);
+      window.location.href = 'login.html';
+    }
+    
+    // Touch/swipe support
+    let startX = 0;
+    let endX = 0;
+    
+    const container = document.querySelector('.swiper-container');
+    
+    container.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+    
+    container.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    });
+    
+    container.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+    
+    // Mouse support for desktop
+    container.addEventListener('mousedown', (e) => {
+      startX = e.clientX;
+      container.style.cursor = 'grabbing';
+    });
+    
+    container.addEventListener('mousemove', (e) => {
+      if (startX !== 0) {
+        e.preventDefault();
+      }
+    });
+    
+    container.addEventListener('mouseup', (e) => {
+      if (startX !== 0) {
+        endX = e.clientX;
+        handleSwipe();
+        startX = 0;
+        container.style.cursor = 'grab';
+      }
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      startX = 0;
+      container.style.cursor = 'grab';
+    });
+    
+    function handleSwipe() {
+      const threshold = 50;
+      const distance = startX - endX;
+      
+      if (Math.abs(distance) > threshold) {
+        if (distance > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+    
+    // Initialize
+    updateSlider();
+  </script>
+  <!-- Stripe JS Library -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Script per sistema pagamenti Stripe -->
+  <script src="stripe-upgrade.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

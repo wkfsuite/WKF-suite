@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Gestione Permessi</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span id="appTitle">WKF Suite</span>
+        <span id="licenseStatus" class="license-badge">FREE</span>
+      </div>
+      <div class="header-actions">
+        <button id="upgradeLink" class="btn" style="display: none; margin-right: 15px; background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%); color: white; border: none; font-weight: bold; padding: 8px 16px; cursor: pointer;">
+          🚀 Upgrade a PRO
+        </button>
+        <button id="pwa-install-btn" class="btn" style="display: none; background: #2ecc71; margin-right: 10px;">📱 Installa</button>
+        <span id="userInfoDisplay" class="user-info-badge"></span>
+        <button id="logoutBtn" class="btn logout">🚪 Logout</button>
+      </div>
+    </div>
+
+    <!-- Banner Installazione PWA -->
+    <div id="pwa-install-banner" style="display: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="flex: 1; min-width: 200px;">
+          <strong>📱 Installa WKF Suite</strong>
+          <p style="margin: 5px 0 0; opacity: 0.9; font-size: 14px;">Accesso rapido dal tuo dispositivo, funziona anche offline!</p>
+          <p id="pwa-https-hint" style="margin: 8px 0 0; opacity: 0.8; font-size: 12px; display: none;">
+            ⚠️ Per installazione automatica usa: <a href="https://192.168.1.177:8443" style="color: #ffd700; text-decoration: underline;">HTTPS</a>
+          </p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="document.getElementById('pwa-install-btn').click()" style="padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Installa</button>
+          <button onclick="dismissInstallBanner()" style="padding: 10px 15px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 6px; cursor: pointer;">Dopo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- License Key Modal -->
+    <div id="licenseModal" class="modal-overlay" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>🔑 Attiva License Key</h3>
+          <button id="closeLicenseModal" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Incolla la tua license key WKF Suite PRO:</p>
+          <textarea id="licenseKeyInput" placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX" rows="3"></textarea>
+          <div id="licenseMsg" class="message"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="activateLicenseBtn" class="btn">✅ Attiva</button>
+          <button id="cancelLicenseBtn" class="btn secondary">Annulla</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione Admin -->
+    <div id="adminSection" class="roleSection card">
+      <div class="section-header">
+        <h2>🔧 Pannello Amministratore</h2>
+      </div>
+      <div class="actions">
+        <a href="admin.html" class="btn">⚙️ Configurazione & Gestione Utenti</a>
+        <button id="analyticsBtnAdmin" class="btn pro-only" style="background: #9b59b6;" onclick="checkAnalyticsAccess()">📊 Analytics Avanzate</button>
+        <a href="report_simple.html" class="btn" style="background: #f39c12;">📋 Report & Statistiche</a>
+        <button id="errorMonitorBtn" class="btn" style="background: #e74c3c;">🚨 Monitor Errori</button>
+        <button id="generateQRBtn" class="btn" style="background: #2ecc71;">📱 QR WiFi Dipendenti</button>
+        <button id="generateBrowserQRBtn" class="btn" style="background: #3498db;">🌐 QR Connessione Browser</button>
+      </div>
+      
+      <!-- Sezione QR Code WiFi -->
+      <div id="wifiQRSection" class="card" style="display: none; margin-top: 20px;">
+        <h3>🔗 QR Code WiFi Aziendale</h3>
+        <div id="qrCodeContainer" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="qrMessage" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printQRBtn" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeQRBtn" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <!-- Sezione QR Code Browser -->
+      <div id="browserQRSection" class="card" style="display: none; margin-top: 20px;">
+        <h3>🌐 QR Code Connessione Browser</h3>
+        <div id="browserQRContainer" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="browserQRMessage" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printBrowserQRBtn" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeBrowserQRBtn" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <!-- Sezione Monitor Errori -->
+      <div id="errorMonitorSection" class="card" style="display: none; margin-top: 20px;">
+        <h3>🚨 Monitor Sistema & Errori</h3>
+        <div class="monitor-grid" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0;">
+          <div class="monitor-stat">
+            <h4>📊 Richieste Totali</h4>
+            <div id="totalRequests" class="stat-number">0</div>
+          </div>
+          <div class="monitor-stat">
+            <h4>❌ Errori Totali</h4>
+            <div id="totalErrors" class="stat-number error">0</div>
+          </div>
+          <div class="monitor-stat">
+            <h4>📈 Percentuale Errori</h4>
+            <div id="errorPercentage" class="stat-number">0%</div>
+          </div>
+        </div>
+        
+        <div class="monitor-details" style="margin: 20px 0;">
+          <h4>🖥️ Stato Server</h4>
+          <div id="serverStatus" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>Uptime: <span id="uptime">-</span></div>
+            <div>Memoria: <span id="memoryUsage">-</span></div>
+            <div>PID: <span id="processPid">-</span></div>
+            <div>Ultimo Aggiornamento: <span id="lastUpdate">-</span></div>
+          </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 15px;">
+          <button id="refreshMonitorBtn" class="btn secondary">🔄 Aggiorna</button>
+          <button id="closeMonitorBtn" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <div id="adminRichieste">
+        <h3>Tutte le Richieste Permessi</h3>
+        <div id="richiesteContainerAdmin"></div>
+      </div>
+    </div>
+
+    <!-- Sezione Supervisore -->
+    <div id="supervisoreSection" class="roleSection card">
+      <div class="section-header">
+        <h2>👨‍💼 Pannello Supervisore</h2>
+      </div>
+      <div class="actions" style="margin-bottom: 20px;">
+        <button id="analyticsBtnSuper" class="btn pro-only" style="background: #9b59b6;" onclick="checkAnalyticsAccess()">📊 Analytics Avanzate</button>
+        <button id="generateQRBtnSuper" class="btn" style="background: #2ecc71;">📱 QR WiFi Dipendenti</button>
+        <button id="generateBrowserQRBtnSuper" class="btn" style="background: #3498db;">🌐 QR Connessione Browser</button>
+      </div>
+      
+      <!-- Sezione QR Code WiFi -->
+      <div id="wifiQRSectionSuper" class="card" style="display: none; margin-top: 20px;">
+        <h3>🔗 QR Code WiFi Aziendale</h3>
+        <div id="qrCodeContainerSuper" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="qrMessageSuper" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printQRBtnSuper" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeQRBtnSuper" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <!-- Sezione QR Code Browser -->
+      <div id="browserQRSectionSuper" class="card" style="display: none; margin-top: 20px;">
+        <h3>🌐 QR Code Connessione Browser</h3>
+        <div id="browserQRContainerSuper" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="browserQRMessageSuper" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printBrowserQRBtnSuper" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeBrowserQRBtnSuper" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <div id="supervisoreRichieste">
+        <h3>Richieste da Approvare</h3>
+        <div id="richiesteContainerSuper"></div>
+      </div>
+    </div>
+
+    <!-- Sezione Segreteria -->
+    <div id="segreteriaSection" class="roleSection card">
+      <div class="section-header">
+        <h2>📋 Pannello Segreteria</h2>
+      </div>
+      
+      <div class="actions" style="margin-bottom: 20px;">
+        <button id="analyticsBtnSegr" class="btn pro-only" style="background: #9b59b6;" onclick="checkAnalyticsAccess()">📊 Analytics Avanzate</button>
+        <button id="generateQRBtnSegr" class="btn" style="background: #2ecc71;">📱 QR WiFi Dipendenti</button>
+        <button id="generateBrowserQRBtnSegr" class="btn" style="background: #3498db;">🌐 QR Connessione Browser</button>
+      </div>
+      
+      <!-- Sezione QR Code WiFi -->
+      <div id="wifiQRSectionSegr" class="card" style="display: none; margin-top: 20px;">
+        <h3>🔗 QR Code WiFi Aziendale</h3>
+        <div id="qrCodeContainerSegr" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="qrMessageSegr" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printQRBtnSegr" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeQRBtnSegr" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <!-- Sezione QR Code Browser -->
+      <div id="browserQRSectionSegr" class="card" style="display: none; margin-top: 20px;">
+        <h3>🌐 QR Code Connessione Browser</h3>
+        <div id="browserQRContainerSegr" style="text-align: center; margin: 20px 0;">
+          <!-- QR code apparirà qui -->
+        </div>
+        <div id="browserQRMessageSegr" style="text-align: center; margin-bottom: 15px;"></div>
+        <div style="text-align: center;">
+          <button id="printBrowserQRBtnSegr" class="btn secondary">🖨️ Stampa QR</button>
+          <button id="closeBrowserQRBtnSegr" class="btn secondary">✖️ Chiudi</button>
+        </div>
+      </div>
+
+      <!-- Form per inserire richiesta per dipendente -->
+      <div class="card" style="margin-bottom: 20px;">
+        <h3>Inserisci Richiesta per Dipendente</h3>
+        <div id="segreteriaMsg" style="margin-bottom: 15px;"></div>
+        
+        <form id="segreteriaForm">
+          <div class="grid">
+            <div class="col-6">
+              <label>Matricola Dipendente:</label>
+              <input type="text" id="matricolaDipendente" required placeholder="Es: D001">
+            </div>
+            <div class="col-6">
+              <label>Tipo Permesso:</label>
+              <select id="tipoSegreteria" name="tipo" onchange="togglePermessoSegreteria()" required>
+                <option value="">-- Seleziona --</option>
+                <option value="giornaliero">Giornaliero</option>
+                <option value="piu_giorni">Più giorni</option>
+                <option value="ore">Ore</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Campi dinamici per tipo permesso -->
+          <div id="giornalieroSegreteria" class="permesso-box" style="display: none;">
+            <div class="grid">
+              <div class="col-6">
+                <label>Data:</label>
+                <input type="date" id="dataGiornoSegreteria" name="data">
+              </div>
+            </div>
+          </div>
+
+          <div id="piu_giorniSegreteria" class="permesso-box" style="display: none;">
+            <div class="grid">
+              <div class="col-6">
+                <label>Dal:</label>
+                <input type="date" id="dataDalSegreteria" name="dal">
+              </div>
+              <div class="col-6">
+                <label>Al:</label>
+                <input type="date" id="dataAlSegreteria" name="al">
+              </div>
+            </div>
+          </div>
+
+          <div id="oreSegreteria" class="permesso-box" style="display: none;">
+            <div class="grid">
+              <div class="col-4">
+                <label>Data:</label>
+                <input type="date" id="dataOreSegreteria" name="data">
+              </div>
+              <div class="col-4">
+                <label>Ora Inizio:</label>
+                <input type="time" id="oraInizioSegreteria" name="oraInizio">
+              </div>
+              <div class="col-4">
+                <label>Ora Fine:</label>
+                <input type="time" id="oraFineSegreteria" name="oraFine">
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="col-12">
+              <label>Note:</label>
+              <textarea id="noteSegreteria" name="note" rows="3" placeholder="Motivo del permesso..."></textarea>
+            </div>
+          </div>
+
+          <fieldset style="margin: 15px 0;">
+            <legend>Tipo di Permesso:</legend>
+            <div class="checkbox-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <label>
+                <input type="checkbox" id="retribuitoSegreteria" name="retribuito">
+                <img src="assets/icons/permissions/retribuito.svg" alt="💰" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">💰</span>
+                Retribuito
+              </label>
+              <label>
+                <input type="checkbox" id="daRecuperareSegreteria" name="daRecuperare">
+                <img src="assets/icons/permissions/da-recuperare.svg" alt="🔄" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🔄</span>
+                Da Recuperare
+              </label>
+              <label>
+                <input type="checkbox" id="nonRetribuitoSegreteria" name="nonRetribuito">
+                <img src="assets/icons/permissions/non-retribuito.svg" alt="❌" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">❌</span>
+                Non Retribuito
+              </label>
+              <label>
+                <input type="checkbox" id="permessoSindacaleSegreteria" name="permessoSindacale">
+                <img src="assets/icons/permissions/permesso-sindacale.svg" alt="✍️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">✍️</span>
+                Permesso Sindacale
+              </label>
+              <label>
+                <input type="checkbox" id="inCFerieSegreteria" name="inCFerie">
+                <img src="assets/icons/permissions/ferie.svg" alt="☀️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">☀️</span>
+                In C/Ferie
+              </label>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="btn">Inserisci Richiesta</button>
+        </form>
+      </div>
+
+      <div id="segreteriaRichieste">
+        <h3>Richieste Dipendenti</h3>
+        <div id="richiesteContainerSegr"></div>
+      </div>
+    </div>
+
+    <!-- Sezione Dipendente -->
+    <div id="dipendenteSection" class="roleSection card">
+      <div class="section-header">
+        <h2>👤 Pannello Dipendente</h2>
+      </div>
+      <p>Accedi alla <a href="dashboardDipendente.html">dashboard dipendenti</a> per gestire i tuoi permessi.</p>
+    </div>
+  </div>
+
+  <script src="toast.js"></script>
+  <script src="notifications.js"></script>
+  <script src="dashboard.js"></script>
+  <!-- Stripe JS Library -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <!-- Script per sistema pagamenti Stripe -->
+  <script src="stripe-upgrade.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

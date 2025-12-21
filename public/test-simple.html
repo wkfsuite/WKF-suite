@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Semplice Sessione</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .result {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin: 20px 0;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #0056b3; }
+    .success { background: #d4edda; }
+    .error { background: #f8d7da; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Test Ultra-Semplice Sessione</h1>
+
+  <div>
+    <button onclick="testSession()">🔍 Test Sessione (onclick)</button>
+    <button id="testBtn2">📋 Test con addEventListener</button>
+  </div>
+
+  <div id="result" class="result">
+    Clicca un pulsante per testare...
+  </div>
+
+  <div>
+    <a href="login.html">→ Vai al Login</a> |
+    <a href="dashboard.html">→ Vai alla Dashboard</a> |
+    <a href="analytics.html">→ Vai agli Analytics</a>
+  </div>
+
+  <script>
+    console.log('Script caricato');
+
+    // Test con onclick diretto
+    function testSession() {
+      console.log('testSession chiamata');
+      const result = document.getElementById('result');
+      result.textContent = 'Test in corso...\n';
+
+      fetch('/api/session')
+        .then(response => {
+          console.log('Response ricevuta:', response.status);
+          return response.json();
+        })
+        .then(data => {
+          console.log('Dati sessione:', data);
+
+          if (data.user) {
+            result.textContent = `✅ LOGGATO!\nUtente: ${data.user.username}\nRuolo: ${data.user.ruolo}`;
+            result.className = 'result success';
+          } else {
+            result.textContent = `❌ NON LOGGATO\nDevi fare il login prima.`;
+            result.className = 'result error';
+          }
+        })
+        .catch(error => {
+          console.error('Errore:', error);
+          result.textContent = `🚨 ERRORE: ${error.message}`;
+          result.className = 'result error';
+        });
+    }
+
+    // Test con addEventListener
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM caricato');
+
+      const btn2 = document.getElementById('testBtn2');
+      if (btn2) {
+        btn2.addEventListener('click', function(e) {
+          console.log('Evento click btn2');
+          e.preventDefault();
+          e.stopPropagation();
+          testSession();
+        });
+        console.log('Event listener aggiunto a btn2');
+      }
+    });
+
+    // Test automatico al caricamento
+    window.addEventListener('load', () => {
+      console.log('Pagina completamente caricata');
+      testSession();
+    });
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

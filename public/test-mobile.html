@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Test Connettività Mobile</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #1a1a2e;
+      color: white;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .test-result {
+      background: #2d2d44;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border-left: 4px solid #4f7cff;
+    }
+    .success { border-left-color: #2ecc71; }
+    .error { border-left-color: #e74c3c; }
+    .warning { border-left-color: #f1c40f; }
+    button {
+      background: #4f7cff;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin: 10px 0;
+    }
+    button:hover {
+      background: #3d63cc;
+    }
+    .info {
+      background: #2d2d44;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #9aa1b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔧 Test Connettività Mobile</h1>
+    <p>Questa pagina ti aiuta a diagnosticare problemi di connettività da dispositivi mobili.</p>
+    
+    <div class="info">
+      <strong>URL Corrente:</strong> <span id="currentUrl"></span><br>
+      <strong>User Agent:</strong> <span id="userAgent"></span><br>
+      <strong>Schermo:</strong> <span id="screenInfo"></span><br>
+      <strong>Connessione:</strong> <span id="connectionType"></span>
+    </div>
+    
+    <button onclick="testConnectivity()">🌐 Test Connettività Base</button>
+    <button onclick="testAPI()">📡 Test API Server</button>
+    <button onclick="testLogin()">🔐 Test Login Page</button>
+    <button onclick="testSession()">👤 Test Sessione</button>
+    
+    <div id="results"></div>
+    
+    <div class="info">
+      <h3>📱 Istruzioni per Mobile:</h3>
+      <ul>
+        <li>Assicurati di essere sulla stessa rete WiFi del server</li>
+        <li>Usa l'IP del server: <strong>http://192.168.1.51:3000</strong></li>
+        <li>Se non funziona, prova a disabilitare il firewall temporaneamente</li>
+        <li>Su Android: evita il "Data Saver" mode</li>
+        <li>Su iPhone: controlla le impostazioni Privacy e Sicurezza</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Mostra informazioni del dispositivo
+    document.getElementById('currentUrl').textContent = window.location.href;
+    document.getElementById('userAgent').textContent = navigator.userAgent;
+    document.getElementById('screenInfo').textContent = `${screen.width}x${screen.height}`;
+    
+    // Info connessione (se supportata)
+    if (navigator.connection) {
+      document.getElementById('connectionType').textContent = 
+        `${navigator.connection.effectiveType || 'unknown'} (${navigator.connection.type || 'unknown'})`;
+    } else {
+      document.getElementById('connectionType').textContent = 'Non disponibile';
+    }
+    
+    function addResult(title, content, type = 'info') {
+      const resultsDiv = document.getElementById('results');
+      const resultDiv = document.createElement('div');
+      resultDiv.className = `test-result ${type}`;
+      resultDiv.innerHTML = `
+        <h4>${title}</h4>
+        <p>${content}</p>
+        <small>⏰ ${new Date().toLocaleTimeString('it-IT')}</small>
+      `;
+      resultsDiv.appendChild(resultDiv);
+      resultsDiv.scrollTop = resultsDiv.scrollHeight;
+    }
+    
+    async function testConnectivity() {
+      try {
+        addResult('🔍 Test Connettività Base', 'Verifico se il server risponde...', 'warning');
+        
+        const response = await fetch('/api/test');
+        const data = await response.json();
+        
+        if (data.success) {
+          addResult('✅ Connettività OK', 
+            `Server raggiungibile!<br>
+             IP Client: ${data.clientIP}<br>
+             Mobile: ${data.mobile ? 'Sì' : 'No'}<br>
+             Timestamp: ${data.timestamp}`, 'success');
+        } else {
+          addResult('❌ Test Fallito', 'Il server ha risposto ma con errore', 'error');
+        }
+      } catch (error) {
+        addResult('❌ Errore Connettività', 
+          `Impossibile raggiungere il server:<br><code>${error.message}</code>`, 'error');
+      }
+    }
+    
+    async function testAPI() {
+      try {
+        addResult('🔍 Test API', 'Verifico gli endpoint principali...', 'warning');
+        
+        const tests = [
+          { name: 'Session Check', url: '/api/session' },
+          { name: 'WiFi Info', url: '/api/wifi/info' }
+        ];
+        
+        for (const test of tests) {
+          try {
+            const response = await fetch(test.url);
+            const status = response.ok ? '✅' : '❌';
+            addResult(`${status} ${test.name}`, 
+              `Status: ${response.status} ${response.statusText}`, 
+              response.ok ? 'success' : 'error');
+          } catch (error) {
+            addResult(`❌ ${test.name}`, `Errore: ${error.message}`, 'error');
+          }
+        }
+      } catch (error) {
+        addResult('❌ Test API Fallito', error.message, 'error');
+      }
+    }
+    
+    function testLogin() {
+      addResult('🔍 Test Login Page', 'Reindirizzo alla pagina di login...', 'warning');
+      setTimeout(() => {
+        window.location.href = '/login.html';
+      }, 2000);
+    }
+    
+    async function testSession() {
+      try {
+        addResult('🔍 Test Sessione', 'Verifico lo stato della sessione...', 'warning');
+        
+        const response = await fetch('/api/session', {
+          credentials: 'same-origin'
+        });
+        const data = await response.json();
+        
+        if (data.user) {
+          addResult('✅ Sessione Attiva', 
+            `Utente: ${data.user.username}<br>Ruolo: ${data.user.ruolo}`, 'success');
+        } else {
+          addResult('ℹ️ Nessuna Sessione', 'Non sei ancora loggato', 'warning');
+        }
+      } catch (error) {
+        addResult('❌ Errore Sessione', error.message, 'error');
+      }
+    }
+    
+    // Test automatico all'avvio
+    setTimeout(() => {
+      testConnectivity();
+    }, 1000);
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

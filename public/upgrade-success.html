@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Completato - WKF Suite PRO</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+    <link rel="icon" href="/icon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 50px 30px;
+        }
+
+        .success-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .license-card {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .license-key {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0369a1;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: #0284c7;
+        }
+
+        .next-steps {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: #92400e;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .step-number {
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8em;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .dashboard-btn {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .dashboard-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .payment-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 10px;
+            }
+
+            .header {
+                padding: 40px 20px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .success-icon {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="success-icon">🎉</div>
+            <h1>Pagamento Completato!</h1>
+            <p>Benvenuto in WKF Suite PRO</p>
+        </div>
+
+        <div class="content">
+            <div class="license-card">
+                <h3>📄 La tua Licenza PRO</h3>
+                <p>Salva questa chiave di licenza per attivare le funzionalità PRO:</p>
+                <div id="license-key" class="license-key">
+                    Caricamento...
+                </div>
+                <button id="copy-btn" class="copy-btn" onclick="copyLicenseKey()">
+                    📋 Copia Chiave
+                </button>
+            </div>
+
+            <div class="next-steps">
+                <h3>📋 Prossimi Passi</h3>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Attiva la licenza:</strong><br>
+                        Vai su Impostazioni → Licenza e inserisci la chiave sopra
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>Riavvia l'applicazione:</strong><br>
+                        Dopo l'attivazione, riavvia WKF Suite per abilitare le funzioni PRO
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>Configura le funzioni avanzate:</strong><br>
+                        Personalizza email, report e impostazioni aziendali
+                    </div>
+                </div>
+            </div>
+
+            <div id="payment-details" class="payment-details" style="display: none;">
+                <h4>💳 Dettagli Pagamento</h4>
+                <div class="detail-row">
+                    <span>Prodotto:</span>
+                    <span>WKF Suite PRO</span>
+                </div>
+                <div class="detail-row">
+                    <span>Importo:</span>
+                    <span id="amount">€20.00</span>
+                </div>
+                <div class="detail-row">
+                    <span>Email:</span>
+                    <span id="email">-</span>
+                </div>
+                <div class="detail-row">
+                    <span>ID Transazione:</span>
+                    <span id="session-id">-</span>
+                </div>
+            </div>
+
+            <a href="/" class="dashboard-btn">
+                🏠 Torna alla Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let licenseKey = '';
+
+        // Copia la chiave di licenza negli appunti
+        function copyLicenseKey() {
+            if (!licenseKey) return;
+
+            navigator.clipboard.writeText(licenseKey).then(function() {
+                const btn = document.getElementById('copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copiato!';
+                btn.style.background = '#10b981';
+
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#0ea5e9';
+                }, 2000);
+            }).catch(function(err) {
+                // Fallback per browser più vecchi
+                const textArea = document.createElement('textarea');
+                textArea.value = licenseKey;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                const btn = document.getElementById('copy-btn');
+                btn.textContent = '✅ Copiato!';
+                setTimeout(() => btn.textContent = '📋 Copia Chiave', 2000);
+            });
+        }
+
+        // Recupera i dettagli del pagamento dall'URL
+        async function loadPaymentDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+
+            if (!sessionId) {
+                console.warn('Nessun session_id trovato nell\'URL');
+                document.getElementById('license-key').textContent = 'DEMO-LICENSE-KEY-12345';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/verify-payment/${sessionId}`);
+
+                if (!response.ok) {
+                    throw new Error('Errore nella verifica del pagamento');
+                }
+
+                const paymentData = await response.json();
+
+                if (paymentData.success && paymentData.licenseKey) {
+                    // Mostra la chiave di licenza
+                    licenseKey = paymentData.licenseKey;
+                    document.getElementById('license-key').textContent = licenseKey;
+
+                    // Mostra i dettagli del pagamento
+                    document.getElementById('payment-details').style.display = 'block';
+                    document.getElementById('session-id').textContent = sessionId;
+
+                    if (paymentData.email) {
+                        document.getElementById('email').textContent = paymentData.email;
+                    }
+
+                    if (paymentData.amount && paymentData.currency) {
+                        const amount = (paymentData.amount / 100).toFixed(2);
+                        const currency = paymentData.currency.toUpperCase();
+                        document.getElementById('amount').textContent = `${currency === 'EUR' ? '€' : currency}${amount}`;
+                    }
+
+                    console.log('✅ Pagamento verificato con successo');
+                } else {
+                    throw new Error('Pagamento non completato o non valido');
+                }
+
+            } catch (error) {
+                console.error('❌ Errore verifica pagamento:', error);
+                document.getElementById('license-key').textContent = 'Errore nel recupero della licenza';
+                document.getElementById('copy-btn').disabled = true;
+                document.getElementById('copy-btn').textContent = 'Non disponibile';
+            }
+        }
+
+        // Carica i dettagli quando la pagina è pronta
+        document.addEventListener('DOMContentLoaded', loadPaymentDetails);
+    </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

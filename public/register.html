@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrazione - Gestione Permessi</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="toast.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span>Gestione Permessi</span>
+      </div>
+    </div>
+
+    <div class="card" style="max-width: 500px; margin: 30px auto;">
+      <h2>Registrazione Nuovo Utente</h2>
+      
+      <form id="registerForm">
+        <div class="grid">
+          <div class="col-6">
+            <label>Username:</label>
+            <input type="text" id="username" class="input" required placeholder="Username univoco">
+          </div>
+          <div class="col-6">
+            <label>Password:</label>
+            <input type="password" id="password" class="input" required placeholder="Min 6 caratteri">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6">
+            <label>Ruolo:</label>
+            <select id="ruolo" class="input" required>
+              <option value="">-- Seleziona ruolo --</option>
+              <option value="admin">Amministratore</option>
+              <option value="segreteria">Segreteria</option>
+              <option value="supervisore">Supervisore</option>
+              <option value="dipendente">Dipendente</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label>Matricola:</label>
+            <input type="text" id="matricola" class="input" required placeholder="Es: A001, D001">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-12">
+            <label>Email (opzionale):</label>
+            <input type="email" id="email" class="input" placeholder="email@esempio.com">
+            <small style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">
+              L'email è necessaria per il recupero password e le notifiche
+            </small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+          Crea Account
+        </button>
+      </form>
+
+      <div id="registerMsg" style="margin-top: 15px; text-align: center;"></div>
+
+      <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p class="notice">
+          Hai già un account? 
+          <a href="login.html" style="color: var(--accent); text-decoration: none;">
+            Accedi qui
+          </a>
+        </p>
+        
+        <div class="notice" style="margin-top: 15px; font-size: 0.85rem;">
+          <strong>Guida ruoli:</strong><br>
+          <strong>Admin:</strong> Configura WiFi, approva/rifiuta permessi<br>
+          <strong>Supervisore:</strong> Approva/rifiuta permessi<br>
+          <strong>Segreteria:</strong> Vede e inserisce permessi dipendenti<br>
+          <strong>Dipendente:</strong> Gestisce solo i propri permessi
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="register.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

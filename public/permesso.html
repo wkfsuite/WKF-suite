@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Richiesta Permesso</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="toast.js"></script>
+</head>
+<body>
+  <h1>Richieste Permessi</h1>
+  <div id="permessoMsg"></div>
+
+  <!-- Form nuovo permesso -->
+  <form id="permessoForm">
+    <label>Tipo permesso:</label>
+    <select id="tipo" name="tipo">
+      <option value="">Seleziona</option>
+      <option value="giornaliero">Giornaliero</option>
+      <option value="piu_giorni">Più giorni</option>
+      <option value="ore">Solo ore</option>
+    </select><br><br>
+
+    <label>Dal:</label>
+    <input type="date" id="dal" name="dal"><br>
+    <label>Al:</label>
+    <input type="date" id="al" name="al"><br>
+    <label>Data singola:</label>
+    <input type="date" id="data" name="data"><br>
+    
+    <label>Data inserimento:</label>
+    <input type="date" id="dataInserimento" name="dataInserimento"><br>
+
+    <label>Ora inizio:</label>
+    <input type="time" id="oraInizio" name="oraInizio"><br>
+    <label>Ora fine:</label>
+    <input type="time" id="oraFine" name="oraFine"><br>
+
+    <label>Note:</label>
+    <textarea id="note" name="note"></textarea><br>
+
+    <fieldset>
+      <legend>Tipo di Permesso:</legend>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="retribuito" name="retribuito">
+          <img src="assets/icons/permissions/retribuito.svg" alt="💰" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">💰</span>
+          Retribuito
+        </label>
+        <label>
+          <input type="checkbox" id="daRecuperare" name="daRecuperare">
+          <img src="assets/icons/permissions/da-recuperare.svg" alt="🔄" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">🔄</span>
+          Da Recuperare
+        </label>
+        <label>
+          <input type="checkbox" id="nonRetribuito" name="nonRetribuito">
+          <img src="assets/icons/permissions/non-retribuito.svg" alt="❌" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">❌</span>
+          Non Retribuito
+        </label>
+        <label>
+          <input type="checkbox" id="permessoSindacale" name="permessoSindacale">
+          <img src="assets/icons/permissions/permesso-sindacale.svg" alt="✍️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">✍️</span>
+          Permesso Sindacale
+        </label>
+        <label>
+          <input type="checkbox" id="inCFerie" name="inCFerie">
+          <img src="assets/icons/permissions/ferie.svg" alt="☀️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">☀️</span>
+          In C/Ferie
+        </label>
+      </div>
+    </fieldset><br>
+
+    <button type="submit">Invia richiesta</button>
+  </form>
+
+  <h2>Le mie richieste</h2>
+  <div id="richiesteContainer"></div>
+
+  <script src="permesso.js"></script>
+  <script src="pdf.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

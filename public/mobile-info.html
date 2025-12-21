@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Accesso Mobile - Gestione Permessi</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .step {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 4px solid #4f7cff;
+    }
+    .ip-address {
+      background: #2d2d44;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+      color: #4f7cff;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    .quick-links {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .quick-link {
+      background: #4f7cff;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      font-weight: bold;
+    }
+    .quick-link:hover {
+      background: #3d63cc;
+      color: white;
+    }
+    .warning {
+      background: #f39c12;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="mobile-card">
+      <h1>📱 Accesso da Dispositivo Mobile</h1>
+      <p>Segui queste istruzioni per accedere al Sistema Gestione Permessi dal tuo smartphone o tablet.</p>
+    </div>
+
+    <div class="card">
+      <h2>🌐 Indirizzo del Server</h2>
+      <p>Usa questo indirizzo nel browser del tuo dispositivo mobile:</p>
+      
+      <div class="ip-address">
+        https://192.168.1.51:8443
+      </div>
+      
+      <p style="text-align: center; color: #9aa1b3; margin: 10px 0;">
+        <strong>Alternativo HTTP:</strong> http://192.168.1.51:3000<br>
+        <small>(Solo se HTTPS non funziona)</small>
+      </p>
+      
+      <div class="warning">
+        ⚠️ <strong>Importante:</strong> Il tuo dispositivo mobile deve essere collegato alla stessa rete WiFi del computer che ospita il server.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Istruzioni Passo-Passo</h2>
+      
+      <div class="step">
+        <h3>1️⃣ Verifica la Rete WiFi</h3>
+        <p>Assicurati che il dispositivo mobile sia collegato alla stessa rete WiFi del server.</p>
+      </div>
+      
+      <div class="step">
+        <h3>2️⃣ Apri il Browser</h3>
+        <p>Usa Chrome, Safari, Firefox o qualsiasi browser moderno.</p>
+      </div>
+      
+      <div class="step">
+        <h3>3️⃣ Inserisci l'Indirizzo HTTPS</h3>
+        <p>Digita o copia: <code>https://192.168.1.51:8443</code></p>
+      </div>
+      
+      <div class="step">
+        <h3>⚠️ Accetta il Certificato</h3>
+        <p>Il browser mostrerà un avviso di sicurezza. Clicca:</p>
+        <ul>
+          <li><strong>Chrome:</strong> "Avanzate" → "Procedi verso sito non sicuro"</li>
+          <li><strong>Safari:</strong> "Avanzate" → "Visita questo sito web"</li>
+          <li><strong>Firefox:</strong> "Avanzate" → "Aggiungi eccezione"</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>4️⃣ Effettua il Login</h3>
+        <p>Usa le stesse credenziali che usi sul computer.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔗 Collegamenti Rapidi</h2>
+      <div class="quick-links">
+        <a href="/test-mobile.html" class="quick-link">🔧 Test Connettività</a>
+        <a href="/login.html" class="quick-link">🔐 Pagina di Login</a>
+        <a href="/register.html" class="quick-link">📝 Registrazione</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>❓ Risoluzione Problemi</h2>
+      
+      <div class="step">
+        <h3>🚫 La Pagina Non Si Carica</h3>
+        <ul>
+          <li>Controlla di essere sulla stessa rete WiFi</li>
+          <li>Prova a riavviare il WiFi sul dispositivo</li>
+          <li>Verifica che il server sia in esecuzione</li>
+          <li>Usa il <a href="/test-mobile.html" style="color: #4f7cff;">Test Connettività</a></li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>🔄 Problemi di Login</h3>
+        <ul>
+          <li>Cancella la cache del browser</li>
+          <li>Prova in modalità privata/incognito</li>
+          <li>Verifica username e password</li>
+          <li>Riavvia il browser</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>📱 Ottimizzazioni Mobile</h3>
+        <ul>
+          <li>Attiva il WiFi e disattiva i dati mobili</li>
+          <li>Su Android: disabilita "Risparmio dati"</li>
+          <li>Su iPhone: controlla "Limitazioni Privacy"</li>
+          <li>Aggiorna il browser alla versione più recente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💡 Suggerimenti</h2>
+      <ul>
+        <li><strong>Aggiungi ai Preferiti:</strong> Salva l'indirizzo per accesso rapido</li>
+        <li><strong>Aggiungi alla Home:</strong> Su iOS/Android, aggiungi il sito alla schermata home</li>
+        <li><strong>Mantieni Connesso:</strong> Le sessioni durano 24 ore</li>
+        <li><strong>Usa il Landscape:</strong> Ruota il dispositivo per una vista migliore delle tabelle</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Rileva se stiamo già eseguendo da mobile e mostra info aggiuntive
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      const mobileCard = document.querySelector('.mobile-card');
+      mobileCard.innerHTML += '<p style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 5px; margin-top: 15px;"><strong>✅ Dispositivo Mobile Rilevato!</strong><br>Questo sito è ottimizzato per il tuo dispositivo.</p>';
+    }
+    
+    // Auto-test connettività
+    fetch('/api/test')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const warning = document.querySelector('.warning');
+          warning.innerHTML = '✅ <strong>Connessione OK!</strong> Il server risponde correttamente.';
+          warning.style.background = '#2ecc71';
+        }
+      })
+      .catch(error => {
+        console.log('Test connettività fallito:', error);
+      });
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

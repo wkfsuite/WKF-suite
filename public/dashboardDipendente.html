@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Dipendente</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dashboard-page">
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span>Gestione Permessi</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <button id="pwa-install-btn" class="btn" style="display: none; background: #2ecc71;">📱 Installa App</button>
+        <button id="logoutBtn" class="btn secondary">Logout</button>
+      </div>
+    </div>
+
+    <!-- Banner Installazione PWA -->
+    <div id="pwa-install-banner" style="display: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="flex: 1; min-width: 200px;">
+          <strong>📱 Installa WKF Suite</strong>
+          <p style="margin: 5px 0 0; opacity: 0.9; font-size: 14px;">Accesso rapido dal tuo dispositivo, funziona anche offline!</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="document.getElementById('pwa-install-btn').click()" style="padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Installa</button>
+          <button onclick="dismissInstallBanner()" style="padding: 10px 15px; background: rgba(255,255,255,0.2); color: white; border: none; border-radius: 6px; cursor: pointer;">Dopo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>Benvenuto <span id="usernameDisplay"></span></h1>
+      <p>Matricola: <span id="matricolaDisplay"></span></p>
+      
+      <div class="actions" style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="report_simple.html" class="btn" style="background: #f39c12;">📊 I Miei Report</a>
+      </div>
+
+      <!-- Form per richiedere nuovo permesso -->
+      <h2>Richiedi Nuovo Permesso</h2>
+      <div id="permessoMsg" style="margin-bottom: 15px;"></div>
+      
+      <form id="permessoForm">
+        <div class="grid">
+          <div class="col-6">
+            <label>Tipo Permesso:</label>
+            <select id="tipo" name="tipo" onchange="togglePermesso()" required>
+              <option value="">-- Seleziona --</option>
+              <option value="giornaliero">Giornaliero</option>
+              <option value="piu_giorni">Più giorni</option>
+              <option value="ore">Ore</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Campi dinamici per tipo permesso -->
+        <div id="giornaliero" class="permesso-box" style="display: none;">
+          <div class="grid">
+            <div class="col-6">
+              <label>Data:</label>
+              <input type="date" id="dataGiorno" name="data">
+            </div>
+          </div>
+        </div>
+
+        <div id="piu_giorni" class="permesso-box" style="display: none;">
+          <div class="grid">
+            <div class="col-6">
+              <label>Dal:</label>
+              <input type="date" id="dataDal" name="dal">
+            </div>
+            <div class="col-6">
+              <label>Al:</label>
+              <input type="date" id="dataAl" name="al">
+            </div>
+          </div>
+        </div>
+
+        <div id="ore" class="permesso-box" style="display: none;">
+          <div class="grid">
+            <div class="col-4">
+              <label>Data:</label>
+              <input type="date" id="dataOre" name="data">
+            </div>
+            <div class="col-4">
+              <label>Ora Inizio:</label>
+              <input type="time" id="oraInizio" name="oraInizio">
+            </div>
+            <div class="col-4">
+              <label>Ora Fine:</label>
+              <input type="time" id="oraFine" name="oraFine">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-12">
+            <label>Note (opzionale):</label>
+            <textarea id="note" name="note" rows="3" placeholder="Motivo del permesso..."></textarea>
+          </div>
+        </div>
+
+        <!-- Tipologia permesso -->
+        <div class="grid" style="margin-top: 15px;">
+          <div class="col-12">
+            <label>Tipologia Permesso:</label>
+            <div class="checkbox-group" style="margin-top: 10px;">
+              <div class="checkbox-item">
+                <input type="radio" id="retribuito" name="tipologia" value="retribuito" checked>
+                <label for="retribuito">💰 Retribuito</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="radio" id="da_recuperare" name="tipologia" value="da_recuperare">
+                <label for="da_recuperare">⏰ Da Recuperare</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="radio" id="non_retribuito" name="tipologia" value="non_retribuito">
+                <label for="non_retribuito">❌ Non Retribuito</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="radio" id="permesso_sindacale" name="tipologia" value="permesso_sindacale">
+                <label for="permesso_sindacale">🏛️ Permesso Sindacale</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="radio" id="c_ferie" name="tipologia" value="c_ferie">
+                <label for="c_ferie">🏖️ C/Ferie</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Invia Richiesta</button>
+      </form>
+    </div>
+
+    <!-- Lista delle richieste del dipendente -->
+    <div class="card">
+      <h2>Le Tue Richieste</h2>
+      <div id="richiesteContainer">
+        <!-- Richieste caricate dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <script src="toast.js"></script>
+  <script src="notifications.js"></script>
+  <script src="dashboardDipendente.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

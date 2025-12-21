@@ -1,0 +1,82 @@
+# File di log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directory di runtime e diagnostica
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory delle dipendenze
+/node_modules
+
+# File di ambiente con dati sensibili
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# File di licenza e backup (NON committare la chiave privata)
+license.key
+license.key.backup
+
+# Directory del database e dei backup
+/data/
+
+# Directory di build e distribuzione
+/dist/
+/build/
+
+# File generati dagli script di servizio
+installa-servizio.js
+disinstalla-servizio.js
+
+# File di sistema operativo
+.DS_Store
+Thumbs.db
+
+# SSL certificates
+/ssl/
+
+# -------------------------------------------------------------------
+# Regole aggiunte per pulizia repository pubblico
+# -------------------------------------------------------------------
+
+# Script di automazione e specifici per l'ambiente
+*.bat
+*.sh
+*.ps1
+backup-exclude.txt
+
+# Documentazione di processo interna (aggiungere eccezioni se necessario)
+# Esempio per mantenere README e LICENSE: !README.md
+APK-ANDROID-SETUP.md
+CHECKLIST-MSIX-BUILD.md
+CHECKLIST-SICUREZZA.md
+CLAUDE.md
+INSTALLAZIONE-NUOVE-SEDI.md
+INSTALLAZIONE-WINDOWS.md
+MICROSOFT-STORE-GUIDE.md
+SECURITY-PATCH-1.1.1.md
+SICUREZZA-GIT.md
+SICUREZZA-STRIPE.md
+STRIPE_INTEGRATION.md
+STRIPE-SETUP-GUIDE.md
+STRIPE-SETUP-SEMPLICE.md
+STRIPE-UNIFICAZIONE.md
+TERMINI-SERVIZIO-BETA.md
+
+# Configurazioni dell'editor
+.vscode/
+
+# Build, release e cartelle non necessarie nel sorgente
+/release-opensource/
+/screenshoot WKF/
+/ICONE/
+
+# File anomali
+nul

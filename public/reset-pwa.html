@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Reset PWA - WKF Suite</title>
+</head>
+<body>
+<h2>Reset PWA Cache</h2>
+<button onclick="resetPWA()" style="padding: 20px; font-size: 18px;">Reset PWA & Reload</button>
+<p id="status"></p>
+<script>
+async function resetPWA() {
+  try {
+    // Cancella localStorage
+    localStorage.removeItem('wkf-install-banner-dismissed');
+    localStorage.removeItem('wkf-pwa-installed');
+    document.getElementById('status').textContent = '✅ localStorage cancellato';
+
+    // Unregister service workers
+    if ('serviceWorker' in navigator) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      for(let registration of registrations) {
+        await registration.unregister();
+      }
+      document.getElementById('status').textContent += '\n✅ Service Worker rimosso';
+    }
+
+    // Cancella cache
+    if ('caches' in window) {
+      const names = await caches.keys();
+      await Promise.all(names.map(name => caches.delete(name)));
+      document.getElementById('status').textContent += '\n✅ Cache cancellata';
+    }
+
+    // Reload dopo 2 secondi
+    document.getElementById('status').textContent += '\n\n🔄 Ricarico tra 2 secondi...';
+    setTimeout(() => {
+      window.location.href = '/dashboard.html';
+    }, 2000);
+
+  } catch (error) {
+    document.getElementById('status').textContent = '❌ Errore: ' + error.message;
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Mobile Test - Gestione Permessi</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .test-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+    }
+
+    .test-section h3 {
+      margin-bottom: 10px;
+      color: #f1c40f;
+      font-size: 16px;
+    }
+
+    .test-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .status {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .status.ok { background: #2ecc71; color: white; }
+    .status.error { background: #e74c3c; color: white; }
+    .status.warning { background: #f39c12; color: white; }
+    .status.loading { background: #3498db; color: white; }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .log {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-family: monospace;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📱 Test Connettività Mobile</h1>
+      <p>Diagnostica completa connessione</p>
+    </div>
+
+    <div class="test-section">
+      <h3>📊 Info Dispositivo</h3>
+      <div class="test-item">
+        <span>User Agent:</span>
+        <span id="userAgent" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Mobile Detected:</span>
+        <span id="mobileDetected" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Schermo:</span>
+        <span id="screenInfo" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Connessione:</span>
+        <span id="connectionType" class="status loading">...</span>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>🌐 Test Connettività</h3>
+      <div class="test-item">
+        <span>Server Ping:</span>
+        <span id="pingStatus" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Health Check:</span>
+        <span id="healthStatus" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>CORS Test:</span>
+        <span id="corsStatus" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Session Test:</span>
+        <span id="sessionStatus" class="status loading">...</span>
+      </div>
+    </div>
+
+    <div class="test-section">
+      <h3>⚡ Test Performance</h3>
+      <div class="test-item">
+        <span>Latenza Media:</span>
+        <span id="latency" class="status loading">...</span>
+      </div>
+      <div class="test-item">
+        <span>Timeout Test:</span>
+        <span id="timeoutTest" class="status loading">...</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <button class="btn" onclick="runAllTests()">🔄 Esegui Test</button>
+      <button class="btn" onclick="clearLog()">🗑️ Pulisci Log</button>
+    </div>
+
+    <div class="test-section">
+      <h3>📝 Log Test</h3>
+      <div id="testLog" class="log">Premi "Esegui Test" per iniziare...</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="mobile.html" style="color: #f1c40f; text-decoration: none;">← Torna al Mobile Login</a>
+    </div>
+  </div>
+
+  <script>
+    let testLog = [];
+
+    function log(message) {
+      const timestamp = new Date().toLocaleTimeString();
+      testLog.push(`[${timestamp}] ${message}`);
+      document.getElementById('testLog').textContent = testLog.join('\n');
+      console.log(message);
+    }
+
+    function clearLog() {
+      testLog = [];
+      document.getElementById('testLog').textContent = 'Log pulito.';
+    }
+
+    function updateStatus(elementId, status, text) {
+      const element = document.getElementById(elementId);
+      element.textContent = text;
+      element.className = `status ${status}`;
+    }
+
+    async function runAllTests() {
+      log('🚀 Inizio test completo...');
+
+      // Test device info
+      await testDeviceInfo();
+
+      // Test connectivity
+      await testPing();
+      await testHealthCheck();
+      await testCORS();
+      await testSession();
+
+      // Test performance
+      await testLatency();
+      await testTimeout();
+
+      log('✅ Test completo terminato');
+    }
+
+    function testDeviceInfo() {
+      log('📊 Test info dispositivo...');
+
+      const userAgent = navigator.userAgent;
+      const isMobile = /Mobile|Android|iPhone|iPad|BlackBerry|Opera Mini|Windows Phone/.test(userAgent);
+      const screenInfo = `${screen.width}x${screen.height}`;
+
+      updateStatus('userAgent', 'ok', isMobile ? 'Mobile' : 'Desktop');
+      updateStatus('mobileDetected', isMobile ? 'ok' : 'warning', isMobile ? 'Sì' : 'No');
+      updateStatus('screenInfo', 'ok', screenInfo);
+
+      // Connection type
+      if (navigator.connection) {
+        const conn = navigator.connection;
+        updateStatus('connectionType', 'ok', `${conn.effectiveType || 'Unknown'} (${conn.downlink || '?'} Mbps)`);
+      } else {
+        updateStatus('connectionType', 'warning', 'Non disponibile');
+      }
+
+      log(`Device: ${isMobile ? 'Mobile' : 'Desktop'}, Screen: ${screenInfo}`);
+    }
+
+    async function testPing() {
+      log('🏓 Test ping server...');
+      const start = Date.now();
+
+      try {
+        const response = await fetch('/api/ping', {
+          method: 'GET',
+          credentials: 'same-origin'
+        });
+
+        const data = await response.json();
+        const latency = Date.now() - start;
+
+        if (data.pong) {
+          updateStatus('pingStatus', 'ok', `${latency}ms`);
+          log(`✅ Ping OK - Latenza: ${latency}ms`);
+        } else {
+          updateStatus('pingStatus', 'error', 'Failed');
+          log('❌ Ping failed - Server non risponde');
+        }
+      } catch (error) {
+        updateStatus('pingStatus', 'error', 'Error');
+        log(`❌ Ping error: ${error.message}`);
+      }
+    }
+
+    async function testHealthCheck() {
+      log('🏥 Test health check...');
+
+      try {
+        const response = await fetch('/api/mobile/health', {
+          method: 'GET',
+          credentials: 'same-origin'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          updateStatus('healthStatus', 'ok', 'OK');
+          log(`✅ Health check OK - Server IP: ${data.serverInfo.ip}:${data.serverInfo.port}`);
+          log(`Client IP: ${data.clientInfo.ip}, Mobile: ${data.clientInfo.mobile}`);
+        } else {
+          updateStatus('healthStatus', 'error', 'Failed');
+          log('❌ Health check failed');
+        }
+      } catch (error) {
+        updateStatus('healthStatus', 'error', 'Error');
+        log(`❌ Health check error: ${error.message}`);
+      }
+    }
+
+    async function testCORS() {
+      log('🌐 Test CORS...');
+
+      try {
+        const response = await fetch('/api/test', {
+          method: 'GET',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          updateStatus('corsStatus', 'ok', 'OK');
+          log(`✅ CORS OK - Client IP: ${data.clientIP}`);
+        } else {
+          updateStatus('corsStatus', 'error', 'Failed');
+          log('❌ CORS test failed');
+        }
+      } catch (error) {
+        updateStatus('corsStatus', 'error', 'Error');
+        log(`❌ CORS error: ${error.message}`);
+      }
+    }
+
+    async function testSession() {
+      log('👤 Test sessione...');
+
+      try {
+        const response = await fetch('/api/session', {
+          method: 'GET',
+          credentials: 'same-origin'
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          if (data.user) {
+            updateStatus('sessionStatus', 'ok', `Active (${data.user.username})`);
+            log(`✅ Sessione attiva: ${data.user.username} (${data.user.ruolo})`);
+          } else {
+            updateStatus('sessionStatus', 'warning', 'None');
+            log('ℹ️ Nessuna sessione attiva');
+          }
+        } else {
+          updateStatus('sessionStatus', 'error', 'Error');
+          log('❌ Session test failed');
+        }
+      } catch (error) {
+        updateStatus('sessionStatus', 'error', 'Error');
+        log(`❌ Session error: ${error.message}`);
+      }
+    }
+
+    async function testLatency() {
+      log('⚡ Test latenza (5 ping)...');
+      const latencies = [];
+
+      for (let i = 0; i < 5; i++) {
+        const start = Date.now();
+        try {
+          await fetch('/api/ping');
+          latencies.push(Date.now() - start);
+        } catch (error) {
+          log(`❌ Ping ${i+1} failed: ${error.message}`);
+        }
+      }
+
+      if (latencies.length > 0) {
+        const avgLatency = Math.round(latencies.reduce((a, b) => a + b) / latencies.length);
+        const minLatency = Math.min(...latencies);
+        const maxLatency = Math.max(...latencies);
+
+        updateStatus('latency', avgLatency < 500 ? 'ok' : avgLatency < 1000 ? 'warning' : 'error',
+                    `${avgLatency}ms (${minLatency}-${maxLatency})`);
+        log(`✅ Latenza media: ${avgLatency}ms (min: ${minLatency}ms, max: ${maxLatency}ms)`);
+      } else {
+        updateStatus('latency', 'error', 'Failed');
+        log('❌ Test latenza fallito completamente');
+      }
+    }
+
+    async function testTimeout() {
+      log('⏱️ Test timeout (richiesta lenta)...');
+      const start = Date.now();
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+        const response = await fetch('/api/test', {
+          signal: controller.signal,
+          credentials: 'same-origin'
+        });
+
+        clearTimeout(timeout);
+        const duration = Date.now() - start;
+
+        if (response.ok) {
+          updateStatus('timeoutTest', duration < 5000 ? 'ok' : 'warning', `${duration}ms`);
+          log(`✅ Timeout test OK - Durata: ${duration}ms`);
+        } else {
+          updateStatus('timeoutTest', 'error', 'Failed');
+          log('❌ Timeout test failed - Server error');
+        }
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          updateStatus('timeoutTest', 'error', 'Timeout');
+          log('❌ Timeout test failed - Request timeout');
+        } else {
+          updateStatus('timeoutTest', 'error', 'Error');
+          log(`❌ Timeout test error: ${error.message}`);
+        }
+      }
+    }
+
+    // Auto-run test on page load
+    window.addEventListener('load', () => {
+      setTimeout(runAllTests, 1000);
+    });
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>
