@@ -1,127 +1,123 @@
 # WKF Suite
 
-**Gestione semplice di permessi e ferie per piccole e medie imprese**
+**Simple leave and permission management for small and medium businesses**
 
 ![WKF Suite Logo](https://img.shields.io/badge/WKF-Suite-orange?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 
-WKF Suite aiuta le piccole e medie imprese a gestire le richieste di permessi e ferie dei dipendenti. Semplice da usare, funziona in rete locale e mantiene i tuoi dati sicuri in azienda.
+WKF Suite helps small and medium enterprises manage employee leave and permission requests. Simple to use, works on local networks, and keeps your data secure within your company.
 
-## 🚀 Download e Installazione
+##  Download and Installation
 
-1. **Scarica** `WKF-Suite.exe` dalla sezione [Releases](../../releases)
-2. **Posiziona** l'eseguibile in una cartella dedicata
-3. **Avvia** il file exe (clic destro → "Esegui come amministratore" la prima volta)
-4. **Accedi** aprendo il browser su `http://localhost:3000`
+1. **Download** WKF-Suite.exe from the [Releases](../../releases) section
+2. **Place** the executable in a dedicated folder
+3. **Launch** the exe file (right-click  "Run as administrator" on first run)
+4. **Access** by opening your browser to http://localhost:3000
 
-Non serve installazione. Basta scaricare ed eseguire.
+No installation required. Just download and run.
 
-## ✨ Funzionalità
+##  Features
 
-### Versione GRATUITA
-- Gestione completa richieste permessi e ferie
-- Dashboard per Admin, Manager e Dipendenti
-- Approvazione/rifiuto richieste con motivazioni
-- Export PDF delle richieste
-- Database locale SQLite - i dati restano in azienda
-- Accesso da smartphone tramite WiFi aziendale
+### FREE Version
+- Complete leave and permission request management
+- Dashboards for Admins, Managers, and Employees
+- Approve/reject requests with notes
+- Export requests as PDF
+- Local SQLite database - your data stays in the company
+- Access from smartphone via corporate WiFi
 
-### Versione PRO (€20 una tantum)
-- 📧 **Notifiche email automatiche** per approvazioni/rifiuti
-- 📊 **Grafici analytics avanzati** con statistiche complete
+### PRO Version (�20 one-time)
+-  **Automatic email notifications** for approvals/rejections
+-  **Advanced analytics graphs** with complete statistics
 
+##  Perfect For
 
-## 🏢 Perfetto per
+- **Small and medium businesses** (10-100 employees)
+- **Companies** that want local data (no cloud)
+- **Organizations** seeking simple permission management
+- **Teams** transitioning from Excel to digital software
 
-- **Piccole e medie imprese** (10-100 dipendenti)
-- **Aziende** che vogliono dati locali (niente cloud)
-- **Organizzazioni** che cercano gestione semplice dei permessi
-- **Team** che passano da Excel a software digitale
+##  Security and Privacy
 
-## 🛡️ Sicurezza e Privacy
+- **Local database** - No cloud, data never leaves corporate network
+- **Intranet only** - Works only on company local network
+- **GDPR compliant** - Minimal data collection
+- **Open source** - Transparent code with Apache 2.0 license
 
-- **Database locale** - Niente cloud, i dati non escono mai dalla rete aziendale
-- **Solo intranet** - Funziona solo sulla rete locale dell'azienda
-- **GDPR compliant** - Raccolta dati minimale
-- **Open source** - Codice trasparente con licenza Apache 2.0
+##  System Requirements
 
-## 💻 Requisiti di Sistema
+- **Operating System**: Windows 10/11 (64-bit)
+- **RAM**: 512MB minimum (4GB recommended)
+- **Storage**: 100MB + your data
+- **Network**: Corporate WiFi/LAN for multi-user access
+- **Browser**: Chrome, Firefox, Edge (recent versions)
 
-- **Sistema Operativo**: Windows 10/11 (64-bit)
-- **RAM**: 512MB minimo (consigliati 4GB)
-- **Storage**: 100MB + i tuoi dati
-- **Rete**: WiFi/LAN aziendale per accesso multi-utente
-- **Browser**: Chrome, Firefox, Edge (versioni recenti)
+##  How It Works
 
-## 📋 Come Funziona
+1. **Employees** submit leave requests from PC or smartphone
+2. **Managers** approve or reject requests
+3. **Admin** manages users, departments, and settings
+4. **Everyone** views updated calendars and leave balances
 
-1. **I dipendenti** inviano richieste di permesso da PC o smartphone
-2. **I manager** approvano o rifiutano le richieste
-3. **L'admin** gestisce utenti, reparti e configurazioni
-4. **Tutti** visualizzano calendari e saldi ferie aggiornati
+##  Why WKF Suite?
 
-## 🎯 Perché WKF Suite?
+-  **Download and use** - No complex installation
+-  **One-time payment** - �20 one-time, no subscriptions
+-  **Your data** - Everything stays in your corporate network
+-  **Made in Italy** - Italian support and development
+-  **From Excel to digital** in minutes
 
-- ✅ **Scarica e usa** - Nessuna installazione complessa
-- ✅ **Pagamento unico** - €20 una tantum, no abbonamenti
-- ✅ **Dati tuoi** - Tutto resta nella rete aziendale
-- ✅ **Made in Italy** - Supporto e sviluppo italiani
-- ✅ **Da Excel a digitale** in pochi minuti
+##  Support
 
-## 📞 Supporto
+### Complete Documentation
+For detailed guides on installation, setup, and usage:
+-  Download complete documentation from the repository
 
-### Documentazione Completa
-Per guide dettagliate su installazione, configurazione e utilizzo:
-- 📖 Scarica la documentazione completa dal repository
+### Technical Support
 
+**FREE Users:**
+- GitHub Issues for bug reports and problems
+- Online documentation and guides
 
-### Supporto Tecnico
+**PRO Users:**
+-  Priority email: navib30@ik.me
+-  Response within 24 business hours
 
-**Utenti GRATUITI:**
-- GitHub Issues per bug e problemi
-- Documentazione e guide online
-
-**Utenti PRO:**
-- ✉️ Email prioritario: navib30@ik.me
-- 🚀 Risposta entro 24h lavorative
-
-
-## 🔄 Da Excel a WKF Suite
+##  Excel vs WKF Suite
 
 | Excel | WKF Suite |
 |-------|-----------|
-| Gestione manuale | Workflow automatizzato |
-| Solo da PC ufficio | Anche da smartphone |
-| Email sparse | Notifiche integrate* |
-| Versioni multiple | Unica fonte dati |
-| Nessuna cronologia | Storico completo |
+| Manual management | Automated workflow |
+| Office PC only | Also from smartphone |
+| Scattered emails | Integrated notifications* |
+| Multiple versions | Single source of truth |
+| No history | Complete audit trail |
 
-*Solo versione PRO
+*PRO version only
 
-## 📄 Licenza
+##  License
 
-Questo progetto è rilasciato sotto Licenza Apache 2.0.
+This project is released under Apache 2.0 License.
 
-### Cosa significa:
-- ✅ **Uso commerciale** - Usalo nella tua azienda
-- ✅ **Modifica** - Personalizzalo per le tue esigenze
-- ✅ **Distribuzione** - Condividilo con altri
-- ✅ **Uso privato** - Installazione interna aziendale
+### What this means:
+-  **Commercial use** - Use it in your business
+-  **Modifications** - Customize for your needs
+-  **Distribution** - Share with others
+-  **Private use** - Internal company deployment
 
-## 🤝 Contributi
+##  Contributions
 
-Accogliamo contributi dalla community. Per segnalazioni, suggerimenti o contributi al codice, usa la sezione Issues e Pull Requests.
+We welcome community contributions. For bug reports, suggestions, or code contributions, use the Issues and Pull Requests sections.
 
-## 📈 Roadmap
+##  Roadmap
 
-- [ ] Versioni per macOS e Linux
-- [ ] App mobile nativa per approvazioni
-- [ ] Moduli reporting avanzati
-- [ ] Supporto multi-lingua
-- [ ] API per integrazioni esterne
+- [ ] macOS and Linux versions
+- [ ] Native mobile app for approvals
+- [ ] Advanced reporting modules
+- [ ] Multi-language support
+- [ ] External integration APIs
 
 ---
 
-**WKF Suite** - Realizzato con ❤️ in Italia per le piccole imprese
-
+**WKF Suite** - Made with  in Italy for small businesses
