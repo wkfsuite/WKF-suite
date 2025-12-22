@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave Report - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/3.0.2/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="toast.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo" id="logoImage">
+        <span>Leave Report</span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="generatePDF()">📊 Download PDF Report</button>
+        <button class="btn secondary" onclick="window.location.href='dashboard.html'">← Dashboard</button>
+      </div>
+    </div>
+
+    <!-- Filtri Report -->
+    <div class="card">
+      <h3>Report Filters</h3>
+      <div class="grid">
+        <div class="col-4">
+          <label>From:</label>
+          <input type="date" id="filterDateFrom" class="input">
+        </div>
+        <div class="col-4">
+          <label>To:</label>
+          <input type="date" id="filterDateTo" class="input">
+        </div>
+        <div class="col-4">
+          <label>Employee:</label>
+          <select id="filterEmployee" class="input">
+            <option value="">All employees</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="updateReport()" style="margin-top: 15px;">🔄 Update Report</button>
+    </div>
+
+    <!-- Statistiche Generali -->
+    <div class="grid">
+      <div class="col-6">
+        <div class="card">
+          <h4>📈 General Statistics</h4>
+          <div id="generalStatistics">
+            <div class="stat-item">
+              <span class="stat-label">Total Requests:</span>
+              <span class="stat-value" id="totalRequests">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Approved:</span>
+              <span class="stat-value stat-success" id="approvedRequests">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Rejected:</span>
+              <span class="stat-value stat-error" id="rejectedRequests">0</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Pending:</span>
+              <span class="stat-value stat-warning" id="pendingRequests">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <h4>📊 Status Distribution</h4>
+          <canvas id="statusChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grafici Dettagliati -->
+    <div class="grid">
+      <div class="col-6">
+        <div class="card">
+          <h4>📅 Leaves per Month</h4>
+          <canvas id="monthlyChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <h4>🏷️ Leave Types</h4>
+          <canvas id="typeChart" width="400" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabella Dettaglio -->
+    <div class="card">
+      <h4>📋 Request Details</h4>
+      <div style="overflow-x: auto;">
+        <table class="table" id="detailTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Employee</th>
+              <th>Type</th>
+              <th>Period</th>
+              <th>Status</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Area nascosta per PDF -->
+    <div id="pdfContent" style="display: none; color: #333;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <img id="pdfLogo" src="logo.png" alt="Company Logo" style="max-height: 80px;">
+        <h1 style="color: #333; margin-top: 20px;">EMPLOYEE LEAVE REPORT</h1>
+        <p style="color: #666;">Generated on <span id="generationDate"></span></p>
+      </div>
+      
+      <div id="pdfStats" style="margin: 30px 0;">
+        <!-- Statistics for PDF -->
+      </div>
+      
+      <div id="pdfTable" style="margin-top: 30px;">
+        <!-- Tabella per PDF -->
+      </div>
+    </div>
+  </div>
+
+  <script src="report_safe.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

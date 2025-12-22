@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leave Request</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="toast.js"></script>
+</head>
+<body>
+  <h1>Leave Requests</h1>
+  <div id="permessoMsg"></div>
+
+  <!-- Form nuovo permesso -->
+  <form id="permessoForm">
+    <label>Leave type:</label>
+    <select id="tipo" name="tipo">
+      <option value="">Select</option>
+      <option value="giornaliero">Full Day</option>
+      <option value="piu_giorni">Multiple Days</option>
+      <option value="ore">Hours only</option>
+    </select><br><br>
+
+    <label>From:</label>
+    <input type="date" id="dal" name="dal"><br>
+    <label>To:</label>
+    <input type="date" id="al" name="al"><br>
+    <label>Single date:</label>
+    <input type="date" id="data" name="data"><br>
+    
+    <label>Submission date:</label>
+    <input type="date" id="dataInserimento" name="dataInserimento"><br>
+
+    <label>Start time:</label>
+    <input type="time" id="oraInizio" name="oraInizio"><br>
+    <label>End time:</label>
+    <input type="time" id="oraFine" name="oraFine"><br>
+
+    <label>Note:</label>
+    <textarea id="note" name="note"></textarea><br>
+
+    <fieldset>
+      <legend>Leave Type:</legend>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="retribuito" name="retribuito">
+          <img src="assets/icons/permissions/retribuito.svg" alt="💰" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">💰</span>
+          Paid
+        </label>
+        <label>
+          <input type="checkbox" id="daRecuperare" name="daRecuperare">
+          <img src="assets/icons/permissions/da-recuperare.svg" alt="🔄" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">🔄</span>
+          To Be Compensated
+        </label>
+        <label>
+          <input type="checkbox" id="nonRetribuito" name="nonRetribuito">
+          <img src="assets/icons/permissions/non-retribuito.svg" alt="❌" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">❌</span>
+          Unpaid
+        </label>
+        <label>
+          <input type="checkbox" id="permessoSindacale" name="permessoSindacale">
+          <img src="assets/icons/permissions/permesso-sindacale.svg" alt="✍️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">✍️</span>
+          Union Leave
+        </label>
+        <label>
+          <input type="checkbox" id="inCFerie" name="inCFerie">
+          <img src="assets/icons/permissions/ferie.svg" alt="☀️" style="width: 18px; height: 18px; margin: 0 6px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+          <span style="display: none;">☀️</span>
+          On Vacation
+        </label>
+      </div>
+    </fieldset><br>
+
+    <button type="submit">Submit request</button>
+  </form>
+
+  <h2>My requests</h2>
+  <div id="richiesteContainer"></div>
+
+  <script src="permesso.js"></script>
+  <script src="pdf.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

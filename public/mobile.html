@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Mobile Login - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: white;
+    }
+    
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .logo p {
+      opacity: 0.8;
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.3);
+      color: white;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .message {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    .message.success {
+      background: rgba(46, 204, 113, 0.3);
+      border: 1px solid rgba(46, 204, 113, 0.5);
+    }
+    
+    .message.error {
+      background: rgba(231, 76, 60, 0.3);
+      border: 1px solid rgba(231, 76, 60, 0.5);
+    }
+    
+    .test-info {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    
+    .test-info h3 {
+      margin-bottom: 10px;
+      color: #f1c40f;
+    }
+    
+    .quick-actions {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .quick-btn {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>📱 Mobile Login</h1>
+      <p>Leave Management</p>
+    </div>
+    
+    <form id="mobileLoginForm">
+      <div class="form-group">
+        <label for="username">👤 Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">🔐 Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+      </div>
+      
+      <button type="submit" class="btn">🚀 Login</button>
+    </form>
+    
+    <div id="message"></div>
+    
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="testConnection()">🔧 Test Connection</button>
+      <button class="quick-btn" onclick="checkSession()">👤 Check Session</button>
+    </div>
+    
+    <div class="test-info">
+      <h3>📊 Connection Info</h3>
+      <p id="connectionInfo">Loading...</p>
+    </div>
+  </div>
+
+  <script>
+    // Info dispositivo
+    document.getElementById('connectionInfo').innerHTML = `
+      <strong>IP:</strong> ${window.location.hostname}<br>
+      <strong>Port:</strong> ${window.location.port || '80'}<br>
+      <strong>Mobile:</strong> ${/Mobile|Android|iPhone|iPad/.test(navigator.userAgent) ? 'Yes' : 'No'}<br>
+      <strong>Screen:</strong> ${screen.width}x${screen.height}
+    `;
+    
+    // Form login
+    document.getElementById('mobileLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const messageDiv = document.getElementById('message');
+      
+      if (!username || !password) {
+        showMessage('Enter username and password', 'error');
+        return;
+      }
+      
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+          credentials: 'same-origin'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          showMessage(`✅ Login successful! Welcome ${data.username}`, 'success');
+          
+          // Redirect dopo 2 secondi
+          setTimeout(() => {
+            window.location.href = data.redirectTo || '/dashboard.html';
+          }, 2000);
+          
+        } else {
+          showMessage(`❌ ${data.error || 'Login error'}`, 'error');
+        }
+        
+      } catch (error) {
+        console.error('Login error:', error);
+        showMessage('❌ Server connection error', 'error');
+      }
+    });
+    
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type}`;
+    }
+    
+    async function testConnection() {
+      try {
+        // Prima prova il ping veloce
+        const pingResponse = await fetch('/api/ping', {
+          method: 'GET',
+          credentials: 'same-origin'
+        });
+
+        if (pingResponse.ok) {
+          // Poi fai il test completo
+          const response = await fetch('/api/mobile/health', {
+            method: 'GET',
+            credentials: 'same-origin'
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            showMessage(`✅ Connection OK! Server IP: ${data.serverInfo.ip}`, 'success');
+          } else {
+            showMessage('❌ Health check failed', 'error');
+          }
+        } else {
+          showMessage('❌ Server not reachable', 'error');
+        }
+      } catch (error) {
+        showMessage(`❌ Connection error: ${error.message}`, 'error');
+        console.error('Connection error:', error);
+      }
+    }
+    
+    async function checkSession() {
+      try {
+        const response = await fetch('/api/session');
+        const data = await response.json();
+        
+        if (data.user) {
+          showMessage(`✅ Active session: ${data.user.username}`, 'success');
+        } else {
+          showMessage('ℹ️ No active session', 'error');
+        }
+      } catch (error) {
+        showMessage('❌ Session check error', 'error');
+      }
+    }
+    
+    // Test connessione automatico
+    setTimeout(testConnection, 1000);
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

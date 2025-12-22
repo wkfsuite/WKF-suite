@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics Debug - Session Test</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .debug-info {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    .success { background-color: #d4edda; border-color: #c3e6cb; }
+    .error { background-color: #f8d7da; border-color: #f5c6cb; }
+    .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 Analytics Debug - Session Check</h1>
+
+    <div class="debug-info" id="sessionInfo">
+      Loading session information...
+    </div>
+
+    <div class="actions">
+      <button type="button" id="checkSession" class="btn">🔍 Check Session</button>
+      <button type="button" id="testAnalytics" class="btn" disabled>📊 Test Analytics API</button>
+      <a href="login.html" class="btn secondary">👤 Login</a>
+      <a href="dashboard.html" class="btn secondary">🏠 Dashboard</a>
+    </div>
+
+    <div class="debug-info" id="analyticsTest" style="display: none;">
+      Testing Analytics API...
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      checkSession();
+
+      document.getElementById('checkSession').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        checkSession();
+      });
+
+      document.getElementById('testAnalytics').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        testAnalytics();
+      });
+    });
+
+    async function checkSession() {
+      const sessionInfo = document.getElementById('sessionInfo');
+      const testBtn = document.getElementById('testAnalytics');
+
+      try {
+        sessionInfo.textContent = '⏳ Checking session...';
+        sessionInfo.className = 'debug-info';
+
+        const response = await fetch('/api/session');
+        const data = await response.json();
+
+        if (data.user) {
+          sessionInfo.textContent = `✅ AUTHENTICATED!
+User: ${data.user.username}
+Role: ${data.user.ruolo}
+Employee ID: ${data.user.matricola || 'N/A'}
+
+✅ You can access analytics!`;
+          sessionInfo.className = 'debug-info success';
+          testBtn.disabled = false;
+        } else {
+          sessionInfo.textContent = `❌ NOT AUTHENTICATED
+The session is not valid or has expired.
+
+➡️ You must LOGIN before accessing analytics!
+➡️ Click "Login" to sign in.`;
+          sessionInfo.className = 'debug-info error';
+          testBtn.disabled = true;
+        }
+
+      } catch (error) {
+        sessionInfo.textContent = `🚨 Connection ERROR:
+${error.message}
+
+Check if the server is running.`;
+        sessionInfo.className = 'debug-info error';
+        testBtn.disabled = true;
+      }
+    }
+
+    async function testAnalytics() {
+      const analyticsTest = document.getElementById('analyticsTest');
+      analyticsTest.style.display = 'block';
+
+      try {
+        analyticsTest.textContent = '⏳ Testing Analytics API...';
+        analyticsTest.className = 'debug-info';
+
+        const response = await fetch('/api/analytics/monthly');
+
+        if (response.ok) {
+          const data = await response.json();
+          analyticsTest.textContent = `✅ ANALYTICS API OK!
+Data received: ${data.length} months
+${JSON.stringify(data, null, 2)}`;
+          analyticsTest.className = 'debug-info success';
+        } else {
+          analyticsTest.textContent = `❌ Analytics API Error:
+Status: ${response.status}
+Message: ${response.statusText}`;
+          analyticsTest.className = 'debug-info error';
+        }
+
+      } catch (error) {
+        analyticsTest.textContent = `🚨 Analytics test ERROR:
+${error.message}`;
+        analyticsTest.className = 'debug-info error';
+      }
+    }
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

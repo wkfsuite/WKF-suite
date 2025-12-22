@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="toast.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span>Leave Management</span>
+      </div>
+    </div>
+
+    <div class="card" style="max-width: 500px; margin: 30px auto;">
+      <h2>New User Registration</h2>
+      
+      <form id="registerForm">
+        <div class="grid">
+          <div class="col-6">
+            <label>Username:</label>
+            <input type="text" id="username" class="input" required placeholder="Unique username">
+          </div>
+          <div class="col-6">
+            <label>Password:</label>
+            <input type="password" id="password" class="input" required placeholder="Min 6 characters">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-6">
+            <label>Role:</label>
+            <select id="ruolo" class="input" required>
+              <option value="">-- Select role --</option>
+              <option value="admin">Administrator</option>
+              <option value="segreteria">Secretary</option>
+              <option value="supervisore">Supervisor</option>
+              <option value="dipendente">Employee</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label>Employee ID:</label>
+            <input type="text" id="matricola" class="input" required placeholder="Ex: A001, D001">
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="col-12">
+            <label>Email (optional):</label>
+            <input type="email" id="email" class="input" placeholder="email@example.com">
+            <small style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">
+              Email is required for password recovery and notifications
+            </small>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+          Create Account
+        </button>
+      </form>
+
+      <div id="registerMsg" style="margin-top: 15px; text-align: center;"></div>
+
+      <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p class="notice">
+          Already have an account? 
+          <a href="login.html" style="color: var(--accent); text-decoration: none;">
+            Login here
+          </a>
+        </p>
+        
+        <div class="notice" style="margin-top: 15px; font-size: 0.85rem;">
+          <strong>Role guide:</strong><br>
+          <strong>Admin:</strong> Configures WiFi, approves/rejects leave requests<br>
+          <strong>Supervisor:</strong> Approves/rejects leave requests<br>
+          <strong>Secretary:</strong> Views and enters leave requests for employees<br>
+          <strong>Employee:</strong> Manages only their own leave requests
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="register.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

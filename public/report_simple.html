@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leave Report - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="toast.js"></script>
+  <style>
+    .pagination {
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .pagination-info {
+      color: #9aa1b3;
+      margin-bottom: 10px;
+    }
+    
+    .pagination-controls button {
+      margin: 0 2px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card.success {
+      background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    }
+    
+    .stat-card.error {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+    
+    .stat-card.warning {
+      background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+    }
+    
+    .stat-card h4 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo" id="logoImage">
+        <span>Leave Report</span>
+      </div>
+      <div class="actions">
+        <button class="btn" onclick="generatePDF()">📄 Download PDF Report</button>
+        <button class="btn secondary" onclick="printDirectly()" title="If PDF doesn't work, try this option">🖨️ Direct Print</button>
+        <button class="btn secondary" onclick="window.location.href='dashboard.html'">← Dashboard</button>
+      </div>
+    </div>
+
+    <!-- Filtri Report -->
+    <div class="card">
+      <h3>🔍 Report Filters</h3>
+      <div class="grid">
+        <div class="col-4">
+          <label>From:</label>
+          <input type="date" id="filterDateFrom" class="input">
+        </div>
+        <div class="col-4">
+          <label>To:</label>
+          <input type="date" id="filterDateTo" class="input">
+        </div>
+        <div class="col-4">
+          <label>Employee:</label>
+          <select id="filterEmployee" class="input">
+            <option value="">All employees</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="updateReport()" style="margin-top: 15px;">🔄 Update Report</button>
+    </div>
+
+    <!-- Statistiche Generali -->
+    <div class="card">
+      <h3>📊 General Statistics</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>Total Requests</h4>
+          <p class="stat-value" id="totalRequests">0</p>
+        </div>
+        <div class="stat-card success">
+          <h4>✅ Approved</h4>
+          <p class="stat-value" id="approvedRequests">0</p>
+        </div>
+        <div class="stat-card error">
+          <h4>❌ Rejected</h4>
+          <p class="stat-value" id="rejectedRequests">0</p>
+        </div>
+        <div class="stat-card warning">
+          <h4>⏳ Pending</h4>
+          <p class="stat-value" id="pendingRequests">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabella Dettaglio con Paginazione -->
+    <div class="card">
+      <h3>📋 Request Details</h3>
+      <div style="overflow-x: auto;">
+        <table class="table" id="detailTable">
+          <thead>
+            <tr>
+              <th>📅 Data</th>
+              <th>👤 Dipendente</th>
+              <th>🏷️ Tipo</th>
+              <th>📆 Periodo</th>
+              <th>📊 Stato</th>
+              <th>📝 Note</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+      <!-- Paginazione inserita dinamicamente qui -->
+    </div>
+
+    <!-- Istruzioni -->
+    <div class="card">
+      <h4>ℹ️ Instructions</h4>
+      <ul style="color: #9aa1b3; line-height: 1.6;">
+        <li><strong>Filters:</strong> Use the filters at the top to customize the report</li>
+        <li><strong>Pagination:</strong> Navigate between pages using the controls below the table</li>
+        <li><strong>PDF:</strong> Click "Download PDF Report" to create a printable document</li>
+        <li><strong>Print:</strong> The PDF will open in a new window ready for printing</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="report_simple.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

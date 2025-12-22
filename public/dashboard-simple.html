@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Dashboard - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+
+  <!-- Icons -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <style>
+    .simple-dashboard {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+
+    .chart-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      padding: 20px;
+      background: #ffe6e6;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .stats-summary {
+      display: flex;
+      justify-content: space-around;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .stats-summary {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .simple-dashboard {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body class="dashboard-page">
+  <div class="simple-dashboard">
+    <div class="header">
+      <div class="logo">
+        <img src="logo.png" alt="Logo">
+        <span>📊 Simple Dashboard</span>
+      </div>
+      <div class="actions">
+        <button id="refreshBtn" class="btn">🔄 Refresh</button>
+        <a href="dashboard.html" class="btn secondary">← Dashboard</a>
+      </div>
+    </div>
+
+    <!-- Statistiche Riassuntive -->
+    <div class="stats-summary" id="statsSummary">
+      <div class="stat-item">
+        <span class="stat-value" id="totalRequests">-</span>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="approvedRequests">-</span>
+        <div class="stat-label">Approved</div>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value" id="pendingRequests">-</span>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+
+    <!-- Grafico Mensile -->
+    <div class="chart-container">
+      <div class="chart-title">📈 Leave Requests - Last 6 Months</div>
+      <div id="loadingMessage" class="loading">Loading data...</div>
+      <canvas id="monthlyChart" style="display: none;"></canvas>
+    </div>
+  </div>
+
+  <script src="toast.js"></script>
+  <script src="dashboard-simple.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

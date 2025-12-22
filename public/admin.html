@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuration & User Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h2 id="pageTitle">Administration Area</h2>
+  <div style="margin-bottom: 15px;">
+    <button onclick="window.location.href='dashboard.html'" style="padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">
+      ← Back to Dashboard
+    </button>
+  </div>
+
+  <section>
+    <h3>Configure Wi-Fi</h3>
+    <form id="wifiForm">
+      <input type="text" id="ssid" placeholder="Network Name (SSID)" required>
+      <input type="text" id="wifiPassword" placeholder="Wi-Fi Password" required>
+      <button type="submit">Save Wi-Fi</button>
+    </form>
+    <p id="wifiMsg" style="color:green;"></p>
+  </section>
+
+  <section>
+    <h3>Company Settings</h3>
+    <form id="companyForm">
+      <input type="text" id="companyName" placeholder="Company Name" required>
+
+      <div style="margin: 10px 0;">
+        <label for="companyLogo">Company Logo (optional):</label>
+        <input type="file" id="companyLogo" accept="image/*">
+        <div id="currentLogo" style="margin-top: 5px;"></div>
+      </div>
+
+      <button type="submit">Save Company Settings</button>
+    </form>
+    <p id="companyMsg"></p>
+  </section>
+
+  <section>
+    <h3>Email SMTP Configuration</h3>
+    <form id="emailForm">
+      <div style="margin-bottom: 10px;">
+        <label for="emailEnabled">
+          <input type="checkbox" id="emailEnabled"> Enable email sending
+        </label>
+      </div>
+
+      <div id="emailFields" style="display: none;">
+        <input type="text" id="smtpHost" placeholder="SMTP Server (e.g., smtp.gmail.com)" required>
+        <input type="number" id="smtpPort" placeholder="SMTP Port (587)" min="1" max="65535" value="587">
+
+        <div style="margin: 10px 0;">
+          <label for="smtpSecure">
+            <input type="checkbox" id="smtpSecure"> Use SSL/TLS (port 465)
+          </label>
+        </div>
+
+        <input type="text" id="smtpUser" placeholder="SMTP Username/Email" required>
+        <input type="password" id="smtpPassword" placeholder="SMTP Password" required>
+        <input type="email" id="fromEmail" placeholder="Sender Email" required>
+        <input type="text" id="fromName" placeholder="Sender Name" value="Leave Management System">
+
+        <div style="margin: 10px 0;">
+          <input type="email" id="testEmail" placeholder="Test Email (optional)">
+          <button type="button" id="testEmailBtn">Send Test</button>
+        </div>
+      </div>
+
+      <button type="submit">Save Email Configuration</button>
+    </form>
+    <p id="emailMsg"></p>
+  </section>
+
+  <section>
+    <h3>Registered Users</h3>
+    <table border="1" id="utentiTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="dbToolsSection" style="display: none;">
+    <h3>🗄️ Database Tools</h3>
+    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+      <p style="margin-bottom: 10px; color: #999;">Manage the application's SQLite database</p>
+
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button onclick="trovaDatabase()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+          📂 Open Database Path
+        </button>
+
+        <button onclick="infoDatabase()" style="padding: 10px 20px; background: #9b59b6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          📊 Database Info
+        </button>
+
+        <button onclick="backupDatabase()" style="padding: 10px 20px; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">
+          💾 Backup Database
+        </button>
+      </div>
+
+      <div id="dbInfo" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 4px; display: none;">
+        <pre id="dbInfoContent" style="margin: 0; white-space: pre-wrap; font-size: 12px; color: #ddd;"></pre>
+      </div>
+
+      <p id="dbMsg" style="margin-top: 10px; font-size: 13px;"></p>
+    </div>
+  </section>
+
+  <script src="admin.js"></script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

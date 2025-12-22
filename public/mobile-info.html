@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Mobile Access - Leave Management</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .mobile-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .step {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border-left: 4px solid #4f7cff;
+    }
+    .ip-address {
+      background: #2d2d44;
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+      color: #4f7cff;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+    .quick-links {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .quick-link {
+      background: #4f7cff;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      font-weight: bold;
+    }
+    .quick-link:hover {
+      background: #3d63cc;
+      color: white;
+    }
+    .warning {
+      background: #f39c12;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="mobile-card">
+      <h1>📱 Mobile Device Access</h1>
+      <p>Follow these instructions to access the Leave Management System from your smartphone or tablet.</p>
+    </div>
+
+    <div class="card">
+      <h2>🌐 Server Address</h2>
+      <p>Use this address in your mobile device's browser:</p>
+      
+      <div class="ip-address">
+        https://192.168.1.51:8443
+      </div>
+      
+      <p style="text-align: center; color: #9aa1b3; margin: 10px 0;">
+        <strong>HTTP Alternative:</strong> http://192.168.1.51:3000<br>
+        <small>(Only if HTTPS doesn't work)</small>
+      </p>
+      
+      <div class="warning">
+        ⚠️ <strong>Important:</strong> Your mobile device must be connected to the same WiFi network as the computer hosting the server.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📋 Step-by-Step Instructions</h2>
+      
+      <div class="step">
+        <h3>1️⃣ Check the WiFi Network</h3>
+        <p>Make sure your mobile device is connected to the same WiFi network as the server.</p>
+      </div>
+      
+      <div class="step">
+        <h3>2️⃣ Open the Browser</h3>
+        <p>Use Chrome, Safari, Firefox, or any modern browser.</p>
+      </div>
+      
+      <div class="step">
+        <h3>3️⃣ Enter the HTTPS Address</h3>
+        <p>Type or copy: <code>https://192.168.1.51:8443</code></p>
+      </div>
+      
+      <div class="step">
+        <h3>⚠️ Accept the Certificate</h3>
+        <p>The browser will show a security warning. Click:</p>
+        <ul>
+          <li><strong>Chrome:</strong> "Advanced" → "Proceed to unsafe site"</li>
+          <li><strong>Safari:</strong> "Advanced" → "Visit This Website"</li>
+          <li><strong>Firefox:</strong> "Advanced" → "Add Exception"</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>4️⃣ Log In</h3>
+        <p>Use the same credentials you use on the computer.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🔗 Quick Links</h2>
+      <div class="quick-links">
+        <a href="/test-mobile.html" class="quick-link">🔧 Connectivity Test</a>
+        <a href="/login.html" class="quick-link">🔐 Login Page</a>
+        <a href="/register.html" class="quick-link">📝 Registration</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>❓ Troubleshooting</h2>
+      
+      <div class="step">
+        <h3>🚫 The Page Doesn't Load</h3>
+        <ul>
+          <li>Check that you are on the same WiFi network</li>
+          <li>Try restarting the WiFi on the device</li>
+          <li>Verify that the server is running</li>
+          <li>Use the <a href="/test-mobile.html" style="color: #4f7cff;">Connectivity Test</a></li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>🔄 Login Problems</h3>
+        <ul>
+          <li>Clear the browser cache</li>
+          <li>Try in private/incognito mode</li>
+          <li>Verify username and password</li>
+          <li>Restart the browser</li>
+        </ul>
+      </div>
+      
+      <div class="step">
+        <h3>📱 Mobile Optimizations</h3>
+        <ul>
+          <li>Enable WiFi and disable mobile data</li>
+          <li>On Android: disable "Data Saver"</li>
+          <li>On iPhone: check "Privacy Restrictions"</li>
+          <li>Update the browser to the latest version</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>💡 Tips</h2>
+      <ul>
+        <li><strong>Add to Favorites:</strong> Save the address for quick access</li>
+        <li><strong>Add to Home Screen:</strong> On iOS/Android, add the site to your home screen</li>
+        <li><strong>Stay Connected:</strong> Sessions last for 24 hours</li>
+        <li><strong>Use Landscape:</strong> Rotate your device for a better view of tables</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Rileva se stiamo già eseguendo da mobile e mostra info aggiuntive
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      const mobileCard = document.querySelector('.mobile-card');
+      mobileCard.innerHTML += '<p style="background: rgba(255,255,255,0.2); padding: 10px; border-radius: 5px; margin-top: 15px;"><strong>✅ Mobile Device Detected!</strong><br>This site is optimized for your device.</p>';
+    }
+    
+    // Auto-test connettività
+    fetch('/api/test')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const warning = document.querySelector('.warning');
+          warning.innerHTML = '✅ <strong>Connection OK!</strong> The server is responding correctly.';
+          warning.style.background = '#2ecc71';
+        }
+      })
+      .catch(error => {
+        console.log('Connectivity test failed:', error);
+      });
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+node_modules
+
+# File di configurazione con chiavi sensibili
+.env
+.env.local
+.env.production
+.env.development
+
+# File di licenza (contengono chiavi)
+license.key
+*.key
+
+# File temporanei e log
+*.log
+logs/
+
+# Database locale (potrebbe contenere dati sensibili)
+data/*.sqlite
+data/*.db
+data/backups/
+
+# File di backup
+*.backup
+*.bak
+
+# Chiavi SSH e certificati
+*.pem
+*.cert
+ssl/private/
+
+# ========================================
+# 🔒 FILE SENSIBILI STRIPE E CREDENZIALI
+# ========================================
+
+# File di testo con chiavi Stripe
+Chiave privata.txt
+Chiave pubblicabile.txt
+chiave live.txt
+Set your secret key. Remember to s.txt
+whsec.txt
+app google.txt
+
+# File JavaScript con chiavi hardcoded (usa versione con placeholder)
+# NOTA: Usa sempre stripe-upgrade.js dalla cartella release-opensource/
+public/stripe-upgrade.js
+
+# ========================================
+# 🗂️ FILE DI BUILD E DISTRIBUZIONE
+# ========================================
+
+# Archivi di release (non committare binari)
+*.zip
+*.tar.gz
+*.tar
+*.exe
+*.msi
+*.msix
+*.AppImage
+*.deb
+*.rpm
+*.apk
+
+# Directory di build
+dist/
+build/
+release/
+release-opensource/
+out/
+node-portable.zip
+nodejs/
+node-v*/
+
+# ========================================
+# 📱 FILE MOBILE E CAPACITOR
+# ========================================
+
+# Build Android/iOS
+android/
+ios/
+capacitor.config.json
+
+# ========================================
+# 🔧 FILE DI SVILUPPO E DEBUG
+# ========================================
+
+# File di debug e test
+*.debug.js
+*-debug.bat
+test-*.bat
+test-*.js
+debug-*.bat
+diagnose-*.bat
+fix-*.bat
+
+# File temporanei Windows
+Thumbs.db
+desktop.ini
+*.lnk
+nul
+
+# VSCode settings (opzionale, rimuovi se vuoi committarli)
+.vscode/
+
+# ========================================
+# 📝 DOCUMENTAZIONE LOCALE
+# ========================================
+
+# Note personali e screenshot
+screenshoot WKF/
+status.md
+query.sql
+
+# Guide di installazione specifiche (mantieni solo template generici)
+INSTALLA-*.bat
+CREA-*.bat
+avvia-*.bat
+Build-*.ps1
+
+# ========================================
+# 🌐 WEBSITE E SAMPLE CODE
+# ========================================
+
+# Codice di esempio Stripe (non necessario nel repo principale)
+stripe-sample-code/
+website/

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Session Test</title>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F5C842">
+
+  <!-- iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WKF Suite">
+  <link rel="apple-touch-icon" href="/icons/icon-180x180.png">
+
+  <!-- Android/Chrome Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="WKF Suite">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .result {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin: 20px 0;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: #0056b3; }
+    .success { background: #d4edda; }
+    .error { background: #f8d7da; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Ultra-Simple Session Test</h1>
+
+  <div>
+    <button onclick="testSession()">🔍 Test Session (onclick)</button>
+    <button id="testBtn2">📋 Test with addEventListener</button>
+  </div>
+
+  <div id="result" class="result">
+    Click a button to test...
+  </div>
+
+  <div>
+    <a href="login.html">→ Go to Login</a> |
+    <a href="dashboard.html">→ Go to Dashboard</a> |
+    <a href="analytics.html">→ Go to Analytics</a>
+  </div>
+
+  <script>
+    console.log('Script loaded');
+
+    // Test con onclick diretto
+    function testSession() {
+      console.log('testSession called');
+      const result = document.getElementById('result');
+      result.textContent = 'Test in progress...\n';
+
+      fetch('/api/session')
+        .then(response => {
+          console.log('Response received:', response.status);
+          return response.json();
+        })
+        .then(data => {
+          console.log('Session data:', data);
+
+          if (data.user) {
+            result.textContent = `✅ LOGGED IN!\nUser: ${data.user.username}\nRole: ${data.user.ruolo}`;
+            result.className = 'result success';
+          } else {
+            result.textContent = `❌ NOT LOGGED IN\nYou need to log in first.`;
+            result.className = 'result error';
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          result.textContent = `🚨 ERROR: ${error.message}`;
+          result.className = 'result error';
+        });
+    }
+
+    // Test con addEventListener
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('DOM loaded');
+
+      const btn2 = document.getElementById('testBtn2');
+      if (btn2) {
+        btn2.addEventListener('click', function(e) {
+          console.log('btn2 click event');
+          e.preventDefault();
+          e.stopPropagation();
+          testSession();
+        });
+        console.log('Event listener added to btn2');
+      }
+    });
+
+    // Test automatico al caricamento
+    window.addEventListener('load', () => {
+      console.log('Page fully loaded');
+      testSession();
+    });
+  </script>
+  <script src="pwa-install.js" defer></script>
+</body>
+</html>
