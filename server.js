@@ -2248,7 +2248,7 @@ app.get('/api/company-settings', requireAuth, (req, res) => {
   });
 });
 
-app.post('/api/company-settings', requireRole(['admin']), upload.single('logo'), (req, res) => {
+app.post('/api/company-settings', requirePro, requireRole(['admin']), upload.single('logo'), (req, res) => {
   const { company_name, notification_email, standard_vacation_days } = req.body;
   const logoFile = req.file;
 
