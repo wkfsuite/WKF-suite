@@ -75,6 +75,10 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": ".env.example",
+        "to": ".env.example"
       }
     ],
     "win": {

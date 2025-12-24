@@ -1,5 +1,15 @@
 // server.js
-require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+
+// [FIX] Load .env from correct path based on environment (Electron/PKG/Dev)
+const envPath = process.env.PORTABLE_EXECUTABLE_DIR
+  || (process.versions?.electron ? path.join(path.dirname(process.execPath), '.env') : null)
+  || path.join(process.cwd(), '.env');
+
+require('dotenv').config({ path: envPath });
+console.log(`📝 Loading .env from: ${envPath}`);
+
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -7,8 +17,6 @@ const cors = require('cors');
 // Reverting to sqlite3 with manual asset inclusion
 const sqlite3 = require('sqlite3').verbose();
 const { v4: uuidv4 } = require('uuid');
-const path = require('path');
-const fs = require('fs');
 const QRCode = require('qrcode');
 const bcrypt = require('bcryptjs');
 const https = require('https');
