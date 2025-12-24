@@ -954,7 +954,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
     });
 
     res.json({
-      sessionId: session.id,
+      id: session.id,
       url: session.url
     });
 
