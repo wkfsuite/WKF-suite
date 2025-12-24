@@ -1020,6 +1020,10 @@ app.get('/api/verify-payment/:sessionId', async (req, res) => {
           });
 
           console.log('✅ Payment and license saved successfully in transaction');
+
+          // Automatically activate the license key in the system
+          licenseManager.saveLicenseKey(licenseKey);
+          console.log('🔑 License key automatically activated in local system');
         }
       } catch (dbError) {
         console.error('❌ Critical database error:', dbError);
@@ -1153,6 +1157,10 @@ async function handleCheckoutSessionCompleted(session) {
         });
 
         console.log('✅ Webhook - Payment and license saved successfully in transaction');
+
+        // Automatically activate the license key in the system
+        licenseManager.saveLicenseKey(licenseKey);
+        console.log('🔑 Webhook - License key automatically activated in local system');
       }
 
       // Here you could send an email with the license key
