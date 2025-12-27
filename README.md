@@ -7,6 +7,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 
 WKF Suite helps small and medium enterprises manage employee leave and permission requests. Simple to use, works on local networks, and keeps your data secure within your company.
+Operation with WIFI or local area network, not online !!!
 
 ##  Download and Installation
 
@@ -27,7 +28,7 @@ No installation required. Just download and run.
 - Local SQLite database - your data stays in the company
 - Access from smartphone via corporate WiFi
 
-### PRO Version (€20 one-time)
+### PRO Version (â‚¬20 one-time)
 -  **Automatic email notifications** for approvals/rejections
 -  **Advanced analytics graphs** with complete statistics
 
@@ -63,7 +64,7 @@ No installation required. Just download and run.
 ##  Why WKF Suite?
 
 -  **Download and use** - No complex installation
--  **One-time payment** - €20 one-time, no subscriptions
+-  **One-time payment** - â‚¬20 one-time, no subscriptions
 -  **Your data** - Everything stays in your corporate network
 -  **Made in Italy** - Italian support and development
 -  **From Excel to digital** in minutes
